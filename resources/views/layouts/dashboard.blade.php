@@ -59,12 +59,12 @@
                                 Posts
                             </a>
                         </li> --}}
-                        {{-- <li class="nav-item mb-3">
-                            <a class="nav-link" href="{{ route('admin.posts.create') }}">
+                        <li class="nav-item mb-3">
+                            <a class="nav-link" href="{{ route('admin.accomodations.create') }}">
                                 <i class="fa-solid fa-square-plus"></i>
-                                Create
+                                Add a new accomodation
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
 
                 </div>
