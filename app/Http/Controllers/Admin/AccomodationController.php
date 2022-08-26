@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Accomodation;
+use App\Facility;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class AccomodationController extends Controller
 {
@@ -14,7 +18,8 @@ class AccomodationController extends Controller
      */
     public function index()
     {
-        //
+        $accomodations = Accomodation::all();
+        return view('admin.accomodations.index', compact('accomodations'));
     }
 
     /**
@@ -24,7 +29,8 @@ class AccomodationController extends Controller
      */
     public function create()
     {
-        return view('admin.accomodations.create');
+        $facilities = Facility::all();
+        return view('admin.accomodations.create', compact('facilities'));
     }
 
     /**
@@ -35,7 +41,28 @@ class AccomodationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->getValidationRules());
+
+        $data = $request->all();
+
+        if (isset($data['image'])) {
+            $image = Storage::put('image', $data['image']);
+            $data['image'] = $image;
+        }
+
+        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
+        $data['longitude'] = $local['results']['0']['position']['lon'];
+        $data['latitude'] = $local['results']['0']['position']['lat'];
+
+        $new_accomodation = new Accomodation();
+        $new_accomodation->fill($data);
+        $new_accomodation->slug = Accomodation::generatePostSlug($new_accomodation->name);
+        $new_accomodation->save();
+
+        if (isset($data['facilities'])) {
+            // tramite la funzione sync andiamo a riscrivere l'array dei facilities
+            $new_accomodation->facilities()->sync($data['facilities']);
+        }
     }
 
     /**
@@ -46,7 +73,11 @@ class AccomodationController extends Controller
      */
     public function show($id)
     {
-        //
+        $current_accomodation = Accomodation::findOrFail($id);
+        $facilities = Facility::all();
+        // dd($current_accomodation);
+
+        return view('admin.accomodations.show', compact('current_accomodation', 'facilities'));
     }
 
     /**
@@ -80,6 +111,27 @@ class AccomodationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $current_accomodation = Accomodation::findOrFail($id);
+        // if ($current_accomodation->image) {
+        //     Storage::delete($current_accomodation->image);
+        // }
+        // $current_accomodation->delete();
+
+        // return redirect()->route('admin.posts.index');
+    }
+
+    private function getValidationRules()
+    {
+        return [
+            'name' => 'required|min:3|max:255',
+            'description' => 'required|min:10|max:30000',
+            'n_rooms' => 'required|min:1|max:8',
+            'n_beds' => 'required|min:1|max:8',
+            'n_bathrooms' => 'required|min:1|max:8',
+            'size_sqm' => 'required|min:1|max:500',
+            'address' => 'required|min:3|max:255',
+            'facilities' => 'nullable|exists:facilities,id',
+            'image' => 'image|max:1024'
+        ];
     }
 }
