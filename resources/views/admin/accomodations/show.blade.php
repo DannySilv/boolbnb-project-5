@@ -3,7 +3,8 @@
 @section('content')
     <h1 class="my-1"> {{ $current_accomodation->name }} </h1>
     @if ($current_accomodation->image)
-        <img src="{{ asset('storage/' . $current_accomodation->image) }}" alt="{{ $current_accomodation->name }}">
+        <img class="my-4" src="{{ asset('storage/' . $current_accomodation->image) }}"
+            alt="{{ $current_accomodation->name }}">
     @endif
     <p class="my-3">
         Facilities ->

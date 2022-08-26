@@ -66,6 +66,16 @@
             @enderror --}}
         </div>
 
+        {{-- Input Square Metre --}}
+        <div class="form-group">
+            <label for="size_sqm">Square metres Number</label>
+            <input name="size_sqm" type="number" class="form-control @error('size_sqm') is-invalid @enderror"
+                id="size_sqm" placeholder="Enter square metres" value="{{ old('size_sqm') }}">
+            {{-- @error('size_sqm')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror --}}
+        </div>
+
         {{-- Input Facilities --}}
         <div class="form-group">
             <label for="n_bathrooms">Facilities list</label>
@@ -76,16 +86,6 @@
                     <label for="facility-{{ $facility->id }}" class="form-check-label">{{ $facility->name }}</label>
                 </div>
             @endforeach
-        </div>
-
-        {{-- Input Square Metre --}}
-        <div class="form-group">
-            <label for="size_sqm">Square metres Number</label>
-            <input name="size_sqm" type="number" class="form-control @error('size_sqm') is-invalid @enderror"
-                id="size_sqm" placeholder="Enter square metres" value="{{ old('size_sqm') }}">
-            {{-- @error('size_sqm')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror --}}
         </div>
 
         {{-- Input Address --}}

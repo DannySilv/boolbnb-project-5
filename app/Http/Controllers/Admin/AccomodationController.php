@@ -125,10 +125,10 @@ class AccomodationController extends Controller
         return [
             'name' => 'required|min:3|max:255',
             'description' => 'required|min:10|max:30000',
-            'n_rooms' => 'required|min:1|max:8',
-            'n_beds' => 'required|min:1|max:8',
-            'n_bathrooms' => 'required|min:1|max:8',
-            'size_sqm' => 'required|min:1|max:500',
+            'n_rooms' => 'required|numeric|min:1|max:99',
+            'n_beds' => 'required|numeric|min:1|max:99',
+            'n_bathrooms' => 'required|numeric|min:1|max:99',
+            'size_sqm' => 'required|numeric|min:1|max:500',
             'address' => 'required|min:3|max:255',
             'facilities' => 'nullable|exists:facilities,id',
             'image' => 'image|max:1024'
