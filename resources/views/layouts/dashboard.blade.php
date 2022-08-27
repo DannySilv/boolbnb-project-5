@@ -47,22 +47,22 @@
             <nav class="col-md-2 d-none d-md-block bg-light sidebar py-4">
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
-                        {{-- <li class="nav-item mb-3">
-                            <a class="nav-link active" href="{{ route('admin.') }}">
+                        <li class="nav-item mb-3">
+                            <a class="nav-link active" href="{{ route('admin.home') }}">
                                 <i class="fa-solid fa-house"></i>
                                 Dashboard
                             </a>
-                        </li> --}}
-                        {{-- <li class="nav-item mb-3">
-                            <a class="nav-link" href="{{ route('admin.posts.index') }}">
+                        </li>
+                        <li class="nav-item mb-3">
+                            <a class="nav-link" href="{{ route('admin.accomodations.index') }}">
                                 <i class="fa-solid fa-cannabis"></i>
-                                Posts
+                                Lista appartamenti
                             </a>
-                        </li> --}}
+                        </li>
                         <li class="nav-item mb-3">
                             <a class="nav-link" href="{{ route('admin.accomodations.create') }}">
                                 <i class="fa-solid fa-square-plus"></i>
-                                Add a new accomodation
+                                Inserisci un nuovo appartamento
                             </a>
                         </li>
                     </ul>

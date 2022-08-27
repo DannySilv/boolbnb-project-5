@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1>Accomodations List</h1>
+    <h1>Lista degli appartamenti</h1>
     <div class="row row-cols-3">
         @foreach ($accomodations as $accomodation)
             {{-- Single accomodation --}}
@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $accomodation->name }}</h5>
                         <a href="{{ route('admin.accomodations.show', ['accomodation' => $accomodation->id]) }}"
-                            class="btn btn-primary">Open accomodation</a>
+                            class="btn btn-primary">Dettagli appartamento</a>
                     </div>
                 </div>
             </div>

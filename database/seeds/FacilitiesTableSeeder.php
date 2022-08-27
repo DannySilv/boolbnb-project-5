@@ -13,15 +13,15 @@ class FacilitiesTableSeeder extends Seeder
     public function run()
     {
         $facilities = [
-            "Free Wi-Fi",
-            "Essentials (towels, bed sheets etc.)",
-            "Car Parking",
-            "Swimming Pool",
+            "Wi-Fi gratuito",
+            "Essenziali (asciugamani, lenzuola ecc.)",
+            "Parcheggio",
+            "Piscina",
             "Sauna",
             "TV",
-            "Kitchen",
-            "Hair Dryer",
-            "Air Conditioner"
+            "Cucina",
+            "Asciugacapelli",
+            "Aria condizionata"
         ];
 
 

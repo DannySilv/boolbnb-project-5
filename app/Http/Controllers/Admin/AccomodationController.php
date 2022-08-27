@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 class AccomodationController extends Controller
 {
@@ -57,12 +58,15 @@ class AccomodationController extends Controller
         $new_accomodation = new Accomodation();
         $new_accomodation->fill($data);
         $new_accomodation->slug = Accomodation::generatePostSlug($new_accomodation->name);
+        // $new_accomodation->is_visible = $request->visibility;
         $new_accomodation->save();
 
         if (isset($data['facilities'])) {
             // tramite la funzione sync andiamo a riscrivere l'array dei facilities
             $new_accomodation->facilities()->sync($data['facilities']);
         }
+
+        return redirect()->route('admin.accomodations.show', ['accomodation' => $new_accomodation->id]);
     }
 
     /**
@@ -75,7 +79,6 @@ class AccomodationController extends Controller
     {
         $current_accomodation = Accomodation::findOrFail($id);
         $facilities = Facility::all();
-        // dd($current_accomodation);
 
         return view('admin.accomodations.show', compact('current_accomodation', 'facilities'));
     }

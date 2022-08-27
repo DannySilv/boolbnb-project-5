@@ -24,7 +24,8 @@ class Accomodation extends Model
         'latitude',
         'longitude',
         'image',
-        'is_visible'
+        'is_visible',
+        'user_id'
     ];
 
     public function user()

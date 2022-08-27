@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1>Create a new accomodation</h1>
+    <h1 class="mb-4">Inserisci un nuovo appartamento</h1>
 
     {{-- Schermata che visualizza gli errori (se dovessero essercene) --}}
     @if ($errors->any())
@@ -20,7 +20,7 @@
 
         {{-- Input Name --}}
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Nome appartamento</label>
             <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
             {{-- @error('name')
                 <small class="text-danger">{{ $message }}</small>
@@ -29,7 +29,7 @@
 
         {{-- Input descrizione --}}
         <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Descrizione</label>
             <textarea type="text" class="form-control" name="description" id="description"> {{ old('description') }} </textarea>
             {{-- @error('description')
                 <small class="text-danger">{{ $message }}</small>
@@ -38,7 +38,7 @@
 
         {{-- Input n_rooms --}}
         <div class="form-group">
-            <label for="n_rooms">Rooms Number</label>
+            <label for="n_rooms">Numero di stanze</label>
             <input name="n_rooms" type="number" class="form-control @error('n_rooms') is-invalid @enderror" id="n_rooms"
                 placeholder="Enter rooms number" value="{{ old('n_rooms') }}">
             {{-- @error('n_rooms')
@@ -48,7 +48,7 @@
 
         {{-- Input n_beds --}}
         <div class="form-group">
-            <label for="n_beds">Beds Number</label>
+            <label for="n_beds">Numero di letti</label>
             <input name="n_beds" type="number" class="form-control @error('n_beds') is-invalid @enderror" id="n_beds"
                 placeholder="Enter beds number" value="{{ old('n_beds') }}">
             {{-- @error('n_beds')
@@ -58,7 +58,7 @@
 
         {{-- Input n_bathrooms --}}
         <div class="form-group">
-            <label for="n_bathrooms">Bathrooms Number</label>
+            <label for="n_bathrooms">Numero di bagni</label>
             <input name="n_bathrooms" type="number" class="form-control @error('n_bathrooms') is-invalid @enderror"
                 id="n_bathrooms" placeholder="Enter bathrooms number" value="{{ old('n_bathrooms') }}">
             {{-- @error('n_bathrooms')
@@ -68,7 +68,7 @@
 
         {{-- Input Square Metre --}}
         <div class="form-group">
-            <label for="size_sqm">Square metres Number</label>
+            <label for="size_sqm">Numero metri quadri</label>
             <input name="size_sqm" type="number" class="form-control @error('size_sqm') is-invalid @enderror"
                 id="size_sqm" placeholder="Enter square metres" value="{{ old('size_sqm') }}">
             {{-- @error('size_sqm')
@@ -78,7 +78,7 @@
 
         {{-- Input Facilities --}}
         <div class="form-group">
-            <label for="n_bathrooms">Facilities list</label>
+            <label for="facilities">Lista servizi</label>
             @foreach ($facilities as $facility)
                 <div class="form-check">
                     <input name="facilities[]" class="form-check-input" type="checkbox" value="{{ $facility->id }}"
@@ -90,7 +90,7 @@
 
         {{-- Input Address --}}
         <div class="form-group">
-            <label for="address">Address</label>
+            <label for="address">Indirizzo</label>
             <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
             {{-- @error('address')
                 <small class="text-danger">{{ $message }}</small>
@@ -99,7 +99,7 @@
 
         {{-- Input immagine --}}
         <div>
-            <label for="image">Select an image </label>
+            <label for="image">Seleziona un'immagine</label>
             <input type="file" id="image" name="image">
             {{-- @error('image')
                 <small class="text-danger">{{ $message }}</small>
@@ -107,21 +107,21 @@
         </div>
 
         {{-- Input Visible --}}
-        <h5 class="my-4">Visible</h5>
+        <h5 class="my-4">Visibile</h5>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
             <label class="form-check-label" for="flexRadioDefault1">
-                Yes
+                Si
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
             <label class="form-check-label" for="flexRadioDefault2">
                 No
             </label>
         </div>
 
         {{-- Submit button --}}
-        <button type="submit" class="btn btn-primary mt-4">Submit</button>
+        <button type="submit" class="btn btn-primary mt-4">Invia</button>
     </form>
 @endsection
