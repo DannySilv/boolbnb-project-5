@@ -6,6 +6,9 @@
         <img class="my-4" style="max-width: 60%" src="{{ asset('storage/' . $current_accomodation->image) }}"
             alt="{{ $current_accomodation->name }}">
     @endif
+    <p>Numero di stanze: {{ $current_accomodation->n_rooms }}</p>
+    <p>Posti letto: {{ $current_accomodation->n_beds }}</p>
+    <p>Numero di bagni: {{ $current_accomodation->n_bathrooms }}</p>
     <p class="my-3">
         Lista servizi: <br><br>
         @forelse ($current_accomodation->facilities as $facility)
@@ -19,14 +22,17 @@
     </p>
     <p class="my-4" style="width: 50%">{{ $current_accomodation->description }}</p>
 
-    <div class="d-flex justify-content-between" style="max-width: 150px; min-width: 120px">
-        {{-- <a class="btn btn-primary" href="{{ route('admin.posts.edit', ['post' => $current_accomodation->id]) }}">Update
-        </a> --}}
-        {{-- <form action="{{ route('admin.accomodations.destroy', ['accomodation' => $current_accomodation->id]) }}"
+    <div class="d-flex justify-content-between" style="max-width: 350px; min-width: 120px">
+        <a class="btn btn-primary"
+            href="{{ route('admin.accomodations.edit', ['accomodation' => $current_accomodation->id]) }}">
+            Modifica
+            appartamento
+        </a>
+        <form action="{{ route('admin.accomodations.destroy', ['accomodation' => $current_accomodation->id]) }}"
             method="post">
             @csrf
             @method('delete')
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Sei sicuro fratello?')">Delete</button>
-        </form> --}}
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Sei sicuro fratello?')">Elimina appartamento</button>
+        </form>
     </div>
 @endsection

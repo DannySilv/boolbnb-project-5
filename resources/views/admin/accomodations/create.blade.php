@@ -40,7 +40,7 @@
         <div class="form-group">
             <label for="n_rooms">Numero di stanze</label>
             <input name="n_rooms" type="number" class="form-control @error('n_rooms') is-invalid @enderror" id="n_rooms"
-                placeholder="Enter rooms number" value="{{ old('n_rooms') }}">
+                placeholder="Inserisci numero stanze" value="{{ old('n_rooms') }}">
             {{-- @error('n_rooms')
                 <small class="text-danger">{{ $message }}</small>
             @enderror --}}
@@ -50,7 +50,7 @@
         <div class="form-group">
             <label for="n_beds">Numero di letti</label>
             <input name="n_beds" type="number" class="form-control @error('n_beds') is-invalid @enderror" id="n_beds"
-                placeholder="Enter beds number" value="{{ old('n_beds') }}">
+                placeholder="Inserisci numero letti" value="{{ old('n_beds') }}">
             {{-- @error('n_beds')
                 <small class="text-danger">{{ $message }}</small>
             @enderror --}}
@@ -60,7 +60,7 @@
         <div class="form-group">
             <label for="n_bathrooms">Numero di bagni</label>
             <input name="n_bathrooms" type="number" class="form-control @error('n_bathrooms') is-invalid @enderror"
-                id="n_bathrooms" placeholder="Enter bathrooms number" value="{{ old('n_bathrooms') }}">
+                id="n_bathrooms" placeholder="Inserisci numero bagni" value="{{ old('n_bathrooms') }}">
             {{-- @error('n_bathrooms')
                 <small class="text-danger">{{ $message }}</small>
             @enderror --}}
@@ -70,7 +70,7 @@
         <div class="form-group">
             <label for="size_sqm">Numero metri quadri</label>
             <input name="size_sqm" type="number" class="form-control @error('size_sqm') is-invalid @enderror"
-                id="size_sqm" placeholder="Enter square metres" value="{{ old('size_sqm') }}">
+                id="size_sqm" placeholder="Inserisci numero metri quadri" value="{{ old('size_sqm') }}">
             {{-- @error('size_sqm')
                 <small class="text-danger">{{ $message }}</small>
             @enderror --}}
@@ -109,14 +109,14 @@
         {{-- Input Visible --}}
         <h5 class="my-4">Visibile</h5>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-            <label class="form-check-label" for="flexRadioDefault1">
+            <input class="form-check-input" type="radio" name="visibility" id="visibility" value="true" checked>
+            <label class="form-check-label" for="visibility">
                 Si
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-            <label class="form-check-label" for="flexRadioDefault2">
+            <input class="form-check-input" type="radio" name="visibility" id="visibility" value="false">
+            <label class="form-check-label" for="visibility">
                 No
             </label>
         </div>

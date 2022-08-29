@@ -56,7 +56,7 @@
                         <li class="nav-item mb-3">
                             <a class="nav-link" href="{{ route('admin.accomodations.index') }}">
                                 <i class="fa-solid fa-cannabis"></i>
-                                Lista appartamenti
+                                I miei appartamenti
                             </a>
                         </li>
                         <li class="nav-item mb-3">

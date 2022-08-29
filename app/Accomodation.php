@@ -3,13 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Accomodation extends Model
 {
 
-    // use SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'accomodations';
     protected $fillable = [
@@ -38,7 +38,7 @@ class Accomodation extends Model
         return $this->belongsToMany('App\Facility');
     }
 
-    public static function generatePostSlug($name)
+    public static function generateAccomodationSlug($name)
     {
         $base_slug = Str::slug($name, '-');
         $slug = $base_slug;
