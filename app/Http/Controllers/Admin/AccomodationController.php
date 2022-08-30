@@ -83,9 +83,10 @@ class AccomodationController extends Controller
     public function show($id)
     {
         $current_accomodation = Accomodation::findOrFail($id);
+        $user_id = Auth::id();
         $facilities = Facility::all();
 
-        return view('admin.accomodations.show', compact('current_accomodation', 'facilities'));
+        return view('admin.accomodations.show', compact('current_accomodation', 'facilities', 'user_id'));
     }
 
     /**
@@ -117,7 +118,7 @@ class AccomodationController extends Controller
         $current_accomodation = Accomodation::findOrFail($id);
 
         // Chiamata con metodo GET all'API di tom tom, ci serve per prelevare da una Città la corrispondente lat e long
-        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
+        $local = Http::get('https://api.tomtom.com/search/2/autocomplete/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
         $data['longitude'] = $local['results']['0']['position']['lon'];
         $data['latitude'] = $local['results']['0']['position']['lat'];
 
@@ -162,7 +163,7 @@ class AccomodationController extends Controller
         if ($current_accomodation->image) {
             Storage::delete($current_accomodation->image);
         }
-        
+
         $current_accomodation->delete();
 
         return redirect()->route('admin.accomodations.index');
@@ -178,7 +179,7 @@ class AccomodationController extends Controller
             'n_bathrooms' => 'required|numeric|min:1|max:99',
             'size_sqm' => 'required|numeric|min:1|max:500',
             'address' => 'required|min:3|max:255',
-            'facilities' => 'nullable|exists:facilities,id',
+            'facilities' => 'required|exists:facilities,id',
             'image' => 'image|max:1024'
         ];
     }
