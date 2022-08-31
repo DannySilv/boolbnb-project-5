@@ -17,7 +17,7 @@
 export default {
   name: "Card",
   props: {
-    accomodation: Object
+    accomodation: Object,
   },
   methods: {
     truncateText(text, maxCharNumber) {

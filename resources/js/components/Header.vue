@@ -8,13 +8,13 @@
             >
                 <h4 class="pippo">Bool BnB</h4>
             </router-link>
-            <router-link
+            <!-- <router-link
                 class="logo-container"
                 aria-current="page"
                 :to="{ name: 'blog' }"
             >
                 <h4 class="pippo">Lista appartamenti</h4>
-            </router-link>
+            </router-link> -->
         </nav>
     </header>
 </template>
@@ -42,6 +42,25 @@ header {
         text-decoration: underline;
         // text-transform: uppercase;
         color: white;
+    }
+
+    .ms_searchbar {
+        width: 50%;
+        text-align: center;
+        line-height: 80px;
+        select {
+            width: 150px;
+            height: 30px;
+            border-radius: 50px;
+            border: none;
+        }
+        input {
+            width: 500px;
+            height: 30px;
+            padding: 1rem;
+            border-radius: 50px;
+            border: none;
+        }
     }
 }
 </style>

@@ -1,6 +1,17 @@
 <template>
     <div class="container">
-        <h1 class="text-center my-5 pt-5">Accomodations List</h1>
+        <input
+          type="text"
+          placeholder="Cerca una città o un indirizzo"
+          v-model="searchKey"
+          @keyup.enter="sendSearch()"
+        />
+        <button class="btn abs-1" @click="sendSearch()">
+          <font-awesome-icon icon="fas fa-search" />
+        </button>
+        <button class="btn abs-2" @click="resetClick()">
+          <font-awesome-icon icon="fas fa-redo" />
+        </button>
         <div class="row row-cols-3">
             <div
                 v-for="accomodation in accomodations"
@@ -60,6 +71,7 @@ export default {
     data() {
         return {
             accomodations: [],
+            searchKey: "",
             currentPage: 1,
             lastPage: 0,
         };
@@ -67,6 +79,7 @@ export default {
     created() {
         this.getAccomodations(1);
     },
+    
     methods: {
         getAccomodations(pages) {
             axios
@@ -80,6 +93,15 @@ export default {
                     this.currentPage = resp.data.results.current_page;
                     this.lastPage = resp.data.results.last_page;
                 });
+        },
+        resetClick() {
+            this.thisSearch = "";
+        },
+        sendSearch() {
+            this.accomodations.forEach((element) => {
+              if(!this.searchKey.includes(element.address))
+                
+            });
         },
     },
 };

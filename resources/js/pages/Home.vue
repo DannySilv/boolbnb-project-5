@@ -1,13 +1,17 @@
 <template>
-  <div class="ms-container">
-    <h1 class="text-start">Home</h1>
-  </div>
+    <div class="ms-container">
+        <Accomodations />
+    </div>
 </template>
 
 <script>
+import Accomodations from "../components/Accomodations.vue";
 export default {
-  name: "Home"
-}
+    name: "Home",
+    components: {
+        Accomodations,
+    },
+};
 </script>
 
 <style lang="scss" scoped>
