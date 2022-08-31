@@ -6,7 +6,14 @@
                 aria-current="page"
                 :to="{ name: 'home' }"
             >
-                <h5>Ciao</h5>
+                <h4 class="pippo">Bool BnB</h4>
+            </router-link>
+            <router-link
+                class="logo-container"
+                aria-current="page"
+                :to="{ name: 'blog' }"
+            >
+                <h4 class="pippo">Lista appartamenti</h4>
             </router-link>
         </nav>
     </header>
@@ -21,8 +28,20 @@ export default {
 <style lang="scss" scoped>
 header {
     width: 100%;
-    height: 50px;
+    height: 80px;
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
+    z-index: 1;
+
+    .pippo {
+        padding: 0 2rem;
+        line-height: 80px;
+    }
+
+    .pippo:hover {
+        text-decoration: underline;
+        // text-transform: uppercase;
+        color: white;
+    }
 }
 </style>
