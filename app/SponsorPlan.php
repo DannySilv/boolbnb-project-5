@@ -10,6 +10,6 @@ class SponsorPlan extends Model
     protected $fillable = [
         'name',
         'price',
-        'number_of_days'
+        'number_of_hours'
     ];
 }

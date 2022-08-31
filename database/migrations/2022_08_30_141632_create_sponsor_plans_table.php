@@ -17,7 +17,7 @@ class CreateSponsorPlansTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->float('price', 4, 2);
-            $table->unsignedTinyInteger('number_of_days');
+            $table->unsignedTinyInteger('number_of_hours');
             $table->timestamps();
         });
     }

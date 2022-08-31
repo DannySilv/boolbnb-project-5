@@ -89,7 +89,7 @@
         </div>
 
         {{-- Input Address --}}
-        <div class="form-group">
+        <div class="form-group" id="ciaone">
             <label for="address">Indirizzo *</label>
             <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
             {{-- @error('address')
@@ -127,4 +127,6 @@
 
     <p class="text-right">Legenda: * (campi obbligatori)
     </p>
+
+    </html>
 @endsection

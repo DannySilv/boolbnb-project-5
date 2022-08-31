@@ -1,6 +1,8 @@
 @extends('layouts.dashboard')
 
 @section('content')
+
+@if ($current_accomodation->user_id == $user_id) 
     <h1>Modifica appartamento</h1>
 
     {{-- Schermata che visualizza gli errori (se dovessero essercene) --}}
@@ -72,6 +74,7 @@
                     <input name="facilities[]" class="form-check-input" type="checkbox" value="{{ $facility->id }}"
                         id="facility-{{ $facility->id }}" {{-- Per ogni servizio controlliamo che questo sia incluso nei servizi collegati all appartamento.
                         Se sì si spunta il checked, altrimenti non si fa nulla. --}}
+                        {{-- {{ $current_accomodation->facilities->contains($facility) || in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}> --}}
                         @if ($errors->any())
                             {{ in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}>
                         @else
@@ -124,4 +127,7 @@
     </form>
 
     <p class="text-right">Legenda: * (campi obbligatori)
-    @endsection
+@else
+    <p class="text-center">Non puoi accedere a questi appartamenti</p> 
+@endif
+@endsection

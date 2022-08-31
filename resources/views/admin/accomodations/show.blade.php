@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    @if ($current_accomodation->user_id == $user_id)
+    @if ($current_accomodation->user_id == $user_id) 
         <h1 class="my-1"> {{ $current_accomodation->name }} </h1>
         @if ($current_accomodation->image)
             <img class="my-4" style="max-width: 60%" src="{{ asset('storage/' . $current_accomodation->image) }}"
@@ -38,6 +38,6 @@
             </form>
         </div>
     @else
-        <p class="text-center">Non puoi accedere a questi appartamenti</p>
+        <p class="text-center">Non puoi accedere a questi appartamenti</p> 
     @endif
 @endsection
