@@ -1,16 +1,17 @@
 <template>
     <div class="container">
         <input
-          type="text"
-          placeholder="Cerca una città o un indirizzo"
-          v-model="searchKey"
-          @keyup.enter="sendSearch()"
+            class="text-center mt-5"
+            type="text"
+            placeholder="Cerca una città o un indirizzo"
+            v-model="searchKey"
+            @keyup.enter="sendSearch()"
         />
         <button class="btn abs-1" @click="sendSearch()">
-          <font-awesome-icon icon="fas fa-search" />
+            <font-awesome-icon icon="fas fa-search" />
         </button>
         <button class="btn abs-2" @click="resetClick()">
-          <font-awesome-icon icon="fas fa-redo" />
+            <font-awesome-icon icon="fas fa-redo" />
         </button>
         <div class="row row-cols-3">
             <div
@@ -71,6 +72,7 @@ export default {
     data() {
         return {
             accomodations: [],
+            filteredAccomodations: [],
             searchKey: "",
             currentPage: 1,
             lastPage: 0,
@@ -79,7 +81,6 @@ export default {
     created() {
         this.getAccomodations(1);
     },
-    
     methods: {
         getAccomodations(pages) {
             axios
@@ -94,15 +95,21 @@ export default {
                     this.lastPage = resp.data.results.last_page;
                 });
         },
+        sendSearch() {
+            this.filteredAccomodations = this.accomodations.filter(
+                (accomodation) => {
+                    accomodation.address
+                        .toLowerCase()
+                        .includes(this.searchKey.toLowerCase());
+                }
+            );
+            return filteredAccomodations;
+        },
         resetClick() {
             this.thisSearch = "";
-        },
-        sendSearch() {
-            this.accomodations.forEach((element) => {
-              if(!this.searchKey.includes(element.address))
-                
-            });
         },
     },
 };
 </script>
+
+<style scoped></style>
