@@ -38,6 +38,6 @@
             </form>
         </div>
     @else
-        <p class="text-center">Non puoi accedere a questi appartamenti</p> 
+        <p class="text-center">Non puoi accedere a questo appartamento</p> 
     @endif
 @endsection

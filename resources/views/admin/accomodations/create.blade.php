@@ -89,12 +89,16 @@
         </div>
 
         {{-- Input Address --}}
-        <div class="form-group" id="ciaone">
-            <label for="address">Indirizzo *</label>
-            <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
-            {{-- @error('address')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror --}}
+        <div class="form-group" required>
+            <label>Indirizzo *</label>
+            <input type="text" class="form-control" name="address" id="address" onkeyup="searchAddress()"
+                value="{{ old('address') }}">
+            <div id="suggestions-container" class="mt-2"></div>
+            <input type="text" class="form-control d-none" name="latitude" id="latitude" value="{{ old('latitude') }}">
+
+            <input type="text" class="form-control d-none" name="longitude" id="longitude"
+                value="{{ old('longitude') }}">
+
         </div>
 
         {{-- Input immagine --}}
@@ -127,6 +131,36 @@
 
     <p class="text-right">Legenda: * (campi obbligatori)
     </p>
+
+    <script>
+        function searchAddress() {
+            // window.axios.defaults.headers.common = {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'application/json',
+            // };
+            const resultsContainer = document.getElementById('suggestions-container');
+            resultsContainer.innerHTML = '';
+            const query = document.getElementById('address').value;
+            const linkApi =
+                `https://api.tomtom.com/search/2/search/${query}.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&language=it-IT`
+            axios.get(linkApi).then(resp => {
+                const response = resp.data.results;
+                response.forEach(element => {
+                    const divElement = document.createElement('div');
+                    divElement.classList.add('active');
+                    divElement.innerHTML = element.address.freeformAddress;
+                    document.getElementById('suggestions-container').append(divElement);
+                    divElement.addEventListener('click', function() {
+                        document.getElementById('address').value = element.address.freeformAddress;
+                        document.getElementById('latitude').value = element.position.latitude;
+                        document.getElementById('longitude').value = element.position.longitude;
+                        resultsContainer.innerHTML = '';
+                    });
+                });
+
+            });
+        };
+    </script>
 
     </html>
 @endsection

@@ -1,0 +1,8 @@
+.active {
+    cursor: pointer;
+}
+
+.active:hover {
+    color: $blue;
+    transform: scale(1.05);
+}
