@@ -82,7 +82,8 @@
             @foreach ($facilities as $facility)
                 <div class="form-check">
                     <input name="facilities[]" class="form-check-input" type="checkbox" value="{{ $facility->id }}"
-                        id="facility-{{ in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}">
+                        id="facility-{{ $facility->id }}"
+                        {{ in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}>
                     <label for="facility-{{ $facility->id }}" class="form-check-label">{{ $facility->name }}</label>
                 </div>
             @endforeach

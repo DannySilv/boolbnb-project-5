@@ -56,9 +56,9 @@ class AccomodationController extends Controller
         $data['user_id'] = Auth::user()->id;
 
         // Chiamata con metodo GET all'API di tom tom, ci serve per prelevare da una Città la corrispondente lat e long
-        // $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
-        // $data['longitude'] = $local['results']['0']['position']['lon'];
-        // $data['latitude'] = $local['results']['0']['position']['lat'];
+        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
+        $data['longitude'] = $local['results']['0']['position']['lon'];
+        $data['latitude'] = $local['results']['0']['position']['lat'];
 
         $new_accomodation = new Accomodation();
         $new_accomodation->fill($data);
@@ -119,9 +119,9 @@ class AccomodationController extends Controller
         $current_accomodation = Accomodation::findOrFail($id);
 
         // Chiamata con metodo GET all'API di tom tom, ci serve per prelevare da una Città la corrispondente lat e long
-        // $local = Http::get('https://api.tomtom.com/search/2/autocomplete/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
-        // $data['longitude'] = $local['results']['0']['position']['lon'];
-        // $data['latitude'] = $local['results']['0']['position']['lat'];
+        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
+        $data['longitude'] = $local['results']['0']['position']['lon'];
+        $data['latitude'] = $local['results']['0']['position']['lat'];
 
         // Se l'utente modifica l'immagine
         if (isset($data['image'])) {
