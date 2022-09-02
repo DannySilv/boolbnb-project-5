@@ -172,6 +172,8 @@ class AccomodationController extends Controller
 
     private function getValidationRules()
     {
+        // Auth::setlocale('it');
+
         return [
             'name' => 'required|min:3|max:255',
             'description' => 'required|min:10|max:30000',

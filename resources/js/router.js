@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from "vue";
+import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
@@ -7,19 +7,19 @@ import Home from "./pages/Home.vue";
 import Accomodation from "./pages/Accomodation.vue";
 
 const router = new VueRouter({
-  mode: "history",
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: Home
-    },
-    {
-      path: "/blog/:slug",
-      name: "accomodation",
-      component: Accomodation
-    },
-  ]
+    mode: "history",
+    routes: [
+        {
+            path: "/",
+            name: "home",
+            component: Home,
+        },
+        {
+            path: "/:slug",
+            name: "accomodation",
+            component: Accomodation,
+        },
+    ],
 });
 
 export default router;
