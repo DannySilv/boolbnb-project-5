@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Accomodation;
+use App\Facility;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,8 @@ class AccomodationController extends Controller
 {
     public function index()
     {
-        $accomodations = Accomodation::paginate(6);
+        $accomodations = Accomodation::all();
+        $facilities = Facility::all();
         foreach ($accomodations as $accomodation) {
             if ($accomodation->image) {
                 $accomodation->image = url('storage/' . $accomodation->image);
@@ -19,7 +21,8 @@ class AccomodationController extends Controller
 
         return response()->json([
             'success' => true,
-            'results' => $accomodations
+            'appResults' => $accomodations, 
+            'facResults' => $facilities
         ]);
     }
 

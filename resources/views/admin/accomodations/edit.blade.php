@@ -71,9 +71,10 @@
                 <h5 class="my-4">Modifica lista servizi: *</h5>
                 @foreach ($facilities as $facility)
                     <div class="form-check">
-                        <input name="facilities[]" class="form-check-input" type="checkbox" value="{{ $facility->id }}"
-                            id="facility-{{ $facility->id }}" {{-- Per ogni servizio controlliamo che questo sia incluso nei servizi collegati all appartamento.
-                        Se sì si spunta il checked, altrimenti non si fa nulla. --}} {{-- {{ $current_accomodation->facilities->contains($facility) || in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}> --}}
+                        <input name="facilities[]" class="form-check-input one_required" type="checkbox"
+                            value="{{ $facility->id }}" id="facility-{{ $facility->id }}" {{-- Per ogni servizio controlliamo che questo sia incluso nei servizi collegati all appartamento.
+                            Se sì si spunta il checked, altrimenti non si fa nulla. --}}
+                            {{-- {{ $current_accomodation->facilities->contains($facility) || in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}> --}}
                             @if ($errors->any()) {{ in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}>
                         @else
                             {{ $current_accomodation->facilities->contains($facility) || in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}> @endif
@@ -82,6 +83,7 @@
                         </label>
                     </div>
                 @endforeach
+                <span id="errorToShow"></span>
             </div>
 
             {{-- Input Address --}}
@@ -101,13 +103,14 @@
             {{-- Input immagine --}}
             <div class="my-5">
                 <label for="image">Modifica l'immagine</label>
-                <input type="file" id="image" name="image">
+                <input class="img_required" type="file" id="image" name="image">
 
                 @if ($current_accomodation->image)
                     <h5 class="my-4">Immagine corrente</h5>
                     <img style="max-width: 60%" src="{{ asset('storage/' . $current_accomodation->image) }}"
                         alt="{{ $current_accomodation->name }}">
                 @endif
+                <div id="imgErrorToShow"></div>
             </div>
 
             <h5 class="my-4">Visibile</h5>
@@ -171,6 +174,15 @@
     <script>
         $(document).ready(function() {
             $("#appForm").validate({
+                errorPlacement: function(error, element) {
+                    if ($(element).hasClass("one_required")) {
+                        error.appendTo("#errorToShow");
+                    } else if ($(element).hasClass("img_required")) {
+                        error.appendTo("#imgErrorToShow");
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
                 rules: {
                     name: {
                         required: true,
@@ -274,9 +286,8 @@
 
     <style>
         label.error {
-            float: right;
             margin-top: 0.5rem;
-            font-size: 12px;
+            font-size: 11px;
             color: red;
         }
 

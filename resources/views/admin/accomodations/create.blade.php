@@ -63,12 +63,13 @@
             <label for="facilities">Lista servizi *</label>
             @foreach ($facilities as $facility)
                 <div class="form-check">
-                    <input name="facilities[]" class="form-check-input" type="checkbox" value="{{ $facility->id }}"
-                        id="facility-{{ $facility->id }}"
+                    <input name="facilities[]" class="form-check-input one_required" type="checkbox"
+                        value="{{ $facility->id }}" id="facility-{{ $facility->id }}"
                         {{ in_array($facility->id, old('facilities', [])) ? 'checked' : '' }}>
                     <label for="facility-{{ $facility->id }}" class="form-check-label">{{ $facility->name }}</label>
                 </div>
             @endforeach
+            <span id="errorToShow"></span>
         </div>
 
         {{-- Input Address --}}
@@ -85,9 +86,10 @@
         </div>
 
         {{-- Input immagine --}}
-        <div class="my-5">
+        <div>
             <label for="image">Seleziona un'immagine</label>
-            <input type="file" id="image" name="image">
+            <input class="img_required" type="file" id="image" name="image">
+            <div id="imgErrorToShow"></div>
         </div>
 
         {{-- Input Visible --}}
@@ -148,6 +150,15 @@
     <script>
         $(document).ready(function() {
             $("#appForm").validate({
+                errorPlacement: function(error, element) {
+                    if ($(element).hasClass("one_required")) {
+                        error.appendTo("#errorToShow");
+                    } else if ($(element).hasClass("img_required")) {
+                        error.appendTo("#imgErrorToShow");
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
                 rules: {
                     name: {
                         required: true,
@@ -251,9 +262,8 @@
 
     <style>
         label.error {
-            float: right;
             margin-top: 0.5rem;
-            font-size: 12px;
+            font-size: 11px;
             color: red;
         }
 
