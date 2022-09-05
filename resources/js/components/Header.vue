@@ -1,21 +1,33 @@
 <template>
     <header class="container-fluid">
-        <nav class="nav">
-            <router-link
-                class="logo-container"
-                aria-current="page"
-                :to="{ name: 'home' }"
-            >
-                <h4 class="pippo">Bool BnB</h4>
-            </router-link>
-            <!-- <router-link
-                class="logo-container"
-                aria-current="page"
-                :to="{ name: 'blog' }"
-            >
-                <h4 class="pippo">Lista appartamenti</h4>
-            </router-link> -->
-        </nav>
+        <ul class="ms-links">
+            <li>
+                <router-link
+                    class="logo-container"
+                    aria-current="page"
+                    :to="{ name: 'home' }"
+                >
+                    <h4 class="pippo">Bool BnB</h4>
+                </router-link>
+            </li>
+            <!-- <li>
+                <router-link
+                    class="logo-container"
+                    aria-current="page"
+                    :to="{ name: 'home' }"
+                >
+                    <h4 class="pippo">Lista appartamenti</h4>
+                </router-link>
+            </li> -->
+            <li class="ms-auto">
+                <a class="btn ms-login" aria-current="page" href="/login"
+                    >Login</a
+                >
+                <a class="btn ms-register" aria-current="page" href="/register"
+                    >Register</a
+                >
+            </li>
+        </ul>
     </header>
 </template>
 
@@ -43,24 +55,29 @@ header {
         // text-transform: uppercase;
         color: white;
     }
+}
 
-    .ms_searchbar {
-        width: 50%;
-        text-align: center;
-        line-height: 80px;
-        select {
-            width: 150px;
-            height: 30px;
-            border-radius: 50px;
-            border: none;
-        }
-        input {
-            width: 500px;
-            height: 30px;
-            padding: 1rem;
-            border-radius: 50px;
-            border: none;
-        }
-    }
+.ms-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.btn {
+    padding: 0.1rem 1rem;
+    font-weight: 600;
+}
+
+.ms-login {
+    color: white;
+    border-color: #ec2b00;
+    background-color: #ec2b00;
+}
+
+.ms-register {
+    color: black;
+    border-color: lightgoldenrodyellow;
+    background-color: lightgoldenrodyellow;
 }
 </style>

@@ -11,7 +11,7 @@ class AccomodationController extends Controller
 {
     public function index()
     {
-        $accomodations = Accomodation::all();
+        $accomodations = Accomodation::with('facilities')->where('is_visible', 1)->get();
         $facilities = Facility::all();
         foreach ($accomodations as $accomodation) {
             if ($accomodation->image) {

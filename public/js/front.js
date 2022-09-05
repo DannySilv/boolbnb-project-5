@@ -1924,9 +1924,10 @@ __webpack_require__.r(__webpack_exports__);
       filteredAccomodations: [],
       searchKey: "",
       startSearch: true,
+      noRes: false,
       distance: 20,
-      selectedBeds: null,
-      selectedRooms: null,
+      selectedBeds: "Nessuna selezione",
+      selectedRooms: "Nessuna selezione",
       selectedFacilities: []
     };
   },
@@ -1964,17 +1965,473 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sendSearch: function sendSearch() {
-      var searchWord = this.searchKey;
-      this.filteredAccomodations = [];
-      var filteredAccomodations = this.filteredAccomodations;
-      this.accomodations.forEach(function (accomodation) {
-        if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase())) {
-          filteredAccomodations.push(accomodation);
+      // No filters
+      if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
+        var searchWord = this.searchKey;
+        this.filteredAccomodations = [];
+        var filteredAccomodations = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase())) {
+            filteredAccomodations.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = filteredAccomodations;
+
+        if (filteredAccomodations.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
         }
-      });
-      this.filteredAccomodations = filteredAccomodations;
-      this.startSearch = false;
-      this.searchKey = "";
+
+        this.startSearch = false;
+      } // Beds
+      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
+        var _searchWord = this.searchKey;
+        var selectedBeds = this.selectedBeds;
+        this.filteredAccomodations = [];
+        var _filteredAccomodations = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          if (accomodation.address.toLowerCase().includes(_searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds) {
+            _filteredAccomodations.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = _filteredAccomodations;
+
+        if (_filteredAccomodations.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+
+        this.selectedBeds = "Nessuna selezione";
+        this.startSearch = false;
+      } // Rooms
+      else if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
+        var _searchWord2 = this.searchKey;
+        var selectedRooms = this.selectedRooms;
+        this.filteredAccomodations = [];
+        var _filteredAccomodations2 = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          if (accomodation.address.toLowerCase().includes(_searchWord2.toLowerCase()) && accomodation.n_rooms == selectedRooms) {
+            _filteredAccomodations2.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = _filteredAccomodations2;
+
+        if (_filteredAccomodations2.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+
+        this.selectedRooms = "Nessuna selezione";
+        this.startSearch = false;
+      } // Facilities
+      else if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
+        var _searchWord3 = this.searchKey;
+        var selectedFacilities = this.selectedFacilities;
+        this.filteredAccomodations = [];
+        var _filteredAccomodations3 = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          var singleFacilityId = [];
+          var selectedFacilitiesIds = [];
+          var comparativeArray = [];
+          accomodation.facilities.forEach(function (facility) {
+            singleFacilityId.push(facility.id);
+          });
+          selectedFacilities.forEach(function (id) {
+            selectedFacilitiesIds.push(id);
+          });
+          selectedFacilitiesIds.forEach(function (id) {
+            comparativeArray.push(singleFacilityId.includes(id));
+          });
+
+          if (accomodation.address.toLowerCase().includes(_searchWord3.toLowerCase()) && !comparativeArray.includes(false)) {
+            _filteredAccomodations3.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = _filteredAccomodations3;
+
+        if (_filteredAccomodations3.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+
+        this.selectedFacilities = [];
+        this.startSearch = false;
+      } // Beds + Rooms
+      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
+        var _searchWord4 = this.searchKey;
+        var _selectedBeds = this.selectedBeds;
+        var _selectedRooms = this.selectedRooms;
+        this.filteredAccomodations = [];
+        var _filteredAccomodations4 = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          if (accomodation.address.toLowerCase().includes(_searchWord4.toLowerCase()) && accomodation.n_beds == _selectedBeds && accomodation.n_rooms == _selectedRooms) {
+            _filteredAccomodations4.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = _filteredAccomodations4;
+
+        if (_filteredAccomodations4.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+
+        this.selectedBeds = "Nessuna selezione";
+        this.selectedRooms = "Nessuna selezione";
+        this.startSearch = false;
+      } // Beds + Rooms + Facilities
+      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
+        var _searchWord5 = this.searchKey;
+        var _selectedBeds2 = this.selectedBeds;
+        var _selectedRooms2 = this.selectedRooms;
+        var _selectedFacilities = this.selectedFacilities;
+        this.filteredAccomodations = [];
+        var _filteredAccomodations5 = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          var singleFacilityId = [];
+          var selectedFacilitiesIds = [];
+          var comparativeArray = [];
+          accomodation.facilities.forEach(function (facility) {
+            singleFacilityId.push(facility.id);
+          });
+
+          _selectedFacilities.forEach(function (id) {
+            selectedFacilitiesIds.push(id);
+          });
+
+          selectedFacilitiesIds.forEach(function (id) {
+            comparativeArray.push(singleFacilityId.includes(id));
+          });
+
+          if (accomodation.address.toLowerCase().includes(_searchWord5.toLowerCase()) && accomodation.n_beds == _selectedBeds2 && accomodation.n_rooms == _selectedRooms2 && !comparativeArray.includes(false)) {
+            _filteredAccomodations5.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = _filteredAccomodations5;
+
+        if (_filteredAccomodations5.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+
+        this.selectedBeds = "Nessuna selezione";
+        this.selectedRooms = "Nessuna selezione";
+        this.selectedFacilities = [];
+        this.startSearch = false;
+      } // Beds + Facilities
+      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
+        var _searchWord6 = this.searchKey;
+        var _selectedBeds3 = this.selectedBeds;
+        var _selectedFacilities2 = this.selectedFacilities;
+        this.filteredAccomodations = [];
+        var _filteredAccomodations6 = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          var singleFacilityId = [];
+          var selectedFacilitiesIds = [];
+          var comparativeArray = [];
+          accomodation.facilities.forEach(function (facility) {
+            singleFacilityId.push(facility.id);
+          });
+
+          _selectedFacilities2.forEach(function (id) {
+            selectedFacilitiesIds.push(id);
+          });
+
+          selectedFacilitiesIds.forEach(function (id) {
+            comparativeArray.push(singleFacilityId.includes(id));
+          });
+
+          if (accomodation.address.toLowerCase().includes(_searchWord6.toLowerCase()) && accomodation.n_beds == _selectedBeds3 && !comparativeArray.includes(false)) {
+            _filteredAccomodations6.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = _filteredAccomodations6;
+
+        if (_filteredAccomodations6.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+
+        this.selectedBeds = "Nessuna selezione";
+        this.selectedFacilities = [];
+        this.startSearch = false;
+      } // Rooms + Facilities
+      else if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
+        var _searchWord7 = this.searchKey;
+        var _selectedRooms3 = this.selectedRooms;
+        var _selectedFacilities3 = this.selectedFacilities;
+        this.filteredAccomodations = [];
+        var _filteredAccomodations7 = this.filteredAccomodations;
+        this.accomodations.forEach(function (accomodation) {
+          var singleFacilityId = [];
+          var selectedFacilitiesIds = [];
+          var comparativeArray = [];
+          accomodation.facilities.forEach(function (facility) {
+            singleFacilityId.push(facility.id);
+          });
+
+          _selectedFacilities3.forEach(function (id) {
+            selectedFacilitiesIds.push(id);
+          });
+
+          selectedFacilitiesIds.forEach(function (id) {
+            comparativeArray.push(singleFacilityId.includes(id));
+          });
+
+          if (accomodation.address.toLowerCase().includes(_searchWord7.toLowerCase()) && accomodation.n_rooms == _selectedRooms3 && !comparativeArray.includes(false)) {
+            _filteredAccomodations7.push(accomodation);
+          }
+        });
+        this.filteredAccomodations = _filteredAccomodations7;
+
+        if (_filteredAccomodations7.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+
+        this.selectedRooms = "Nessuna selezione";
+        this.selectedFacilities = [];
+        this.startSearch = false;
+      } // // Distance
+      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
+      //      let searchWord = this.searchKey;
+      //      let distance = this.distance;
+      //      this.filteredAccomodations = [];
+      //      let filteredAccomodations = this.filteredAccomodations;
+      //      this.accomodations.forEach((accomodation) => {
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+      // // Beds + Distance
+      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
+      //     let distance = this.distance;
+      //     let searchWord = this.searchKey;
+      //     let selectedBeds = this.selectedBeds;
+      //     this.filteredAccomodations = [];
+      //     let filteredAccomodations = this.filteredAccomodations;
+      //     this.accomodations.forEach((accomodation) => {
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.selectedBeds = 'Nessuna selezione';
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+      // // Rooms + Distance
+      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
+      //     let distance = this.distance;
+      //     let searchWord = this.searchKey;
+      //     let selectedRooms = this.selectedRooms;
+      //     this.filteredAccomodations = [];
+      //     let filteredAccomodations = this.filteredAccomodations;
+      //     this.accomodations.forEach((accomodation) => {
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_rooms == selectedRooms && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.selectedRooms = 'Nessuna selezione';
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+      // // Facilities + Distance
+      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
+      //     let searchWord = this.searchKey;
+      //     let selectedFacilities = this.selectedFacilities;
+      //     let distance = this.distance;
+      //     this.filteredAccomodations = [];
+      //     let filteredAccomodations = this.filteredAccomodations;
+      //     this.accomodations.forEach((accomodation) => {
+      //         let singleFacilityId = [];
+      //         let selectedFacilitiesIds = [];
+      //         let comparativeArray = [];
+      //         accomodation.facilities.forEach((facility) => {
+      //             singleFacilityId.push(facility.id);
+      //         });
+      //         selectedFacilities.forEach((id) => {
+      //             selectedFacilitiesIds.push(id);
+      //         });
+      //         selectedFacilitiesIds.forEach((id) => {
+      //             comparativeArray.push(singleFacilityId.includes(id))
+      //         });
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && !comparativeArray.includes(false) && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.selectedFacilities = [];
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+      // // Beds + Rooms + Distance
+      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
+      //     let searchWord = this.searchKey;
+      //     let distance = this.distance;
+      //     let selectedBeds = this.selectedBeds;
+      //     let selectedRooms = this.selectedRooms;
+      //     this.filteredAccomodations = [];
+      //     let filteredAccomodations = this.filteredAccomodations;
+      //     this.accomodations.forEach((accomodation) => {
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && accomodation.n_rooms == selectedRooms && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.selectedBeds = 'Nessuna selezione';
+      //     this.selectedRooms = 'Nessuna selezione';
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+      // // Beds + Facilities + Distance
+      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
+      //     let searchWord = this.searchKey;
+      //     let selectedBeds = this.selectedBeds;
+      //     let selectedFacilities = this.selectedFacilities;
+      //     let distance = this.distance;
+      //     this.filteredAccomodations = [];
+      //     let filteredAccomodations = this.filteredAccomodations;
+      //     this.accomodations.forEach((accomodation) => {
+      //         let singleFacilityId = [];
+      //         let selectedFacilitiesIds = [];
+      //         let comparativeArray = [];
+      //         accomodation.facilities.forEach((facility) => {
+      //             singleFacilityId.push(facility.id);
+      //         });
+      //         selectedFacilities.forEach((id) => {
+      //             selectedFacilitiesIds.push(id);
+      //         });
+      //         selectedFacilitiesIds.forEach((id) => {
+      //             comparativeArray.push(singleFacilityId.includes(id))
+      //         });
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && !comparativeArray.includes(false) && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.selectedBeds = 'Nessuna selezione';
+      //     this.selectedFacilities = [];
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+      // // Rooms + Facilities + Distance
+      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
+      //     let searchWord = this.searchKey;
+      //     let selectedRooms = this.selectedRooms;
+      //     let selectedFacilities = this.selectedFacilities;
+      //     let distance = this.distance;
+      //     this.filteredAccomodations = [];
+      //     let filteredAccomodations = this.filteredAccomodations;
+      //     this.accomodations.forEach((accomodation) => {
+      //         let singleFacilityId = [];
+      //         let selectedFacilitiesIds = [];
+      //         let comparativeArray = [];
+      //         accomodation.facilities.forEach((facility) => {
+      //             singleFacilityId.push(facility.id);
+      //         });
+      //         selectedFacilities.forEach((id) => {
+      //             selectedFacilitiesIds.push(id);
+      //         });
+      //         selectedFacilitiesIds.forEach((id) => {
+      //             comparativeArray.push(singleFacilityId.includes(id))
+      //         });
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_rooms == selectedRooms && !comparativeArray.includes(false) && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.selectedRooms = 'Nessuna selezione';
+      //     this.selectedFacilities = [];
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+      // // Beds + Rooms + Facilities + Radius
+      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
+      //     let searchWord = this.searchKey;
+      //     let selectedBeds = this.selectedBeds;
+      //     let selectedRooms = this.selectedRooms;
+      //     let selectedFacilities = this.selectedFacilities;
+      //     let distance = this.distance;
+      //     this.filteredAccomodations = [];
+      //     let filteredAccomodations = this.filteredAccomodations;
+      //     this.accomodations.forEach((accomodation) => {
+      //         let singleFacilityId = [];
+      //         let selectedFacilitiesIds = [];
+      //         let comparativeArray = [];
+      //         accomodation.facilities.forEach((facility) => {
+      //             singleFacilityId.push(facility.id);
+      //         });
+      //         selectedFacilities.forEach((id) => {
+      //             selectedFacilitiesIds.push(id);
+      //         });
+      //         selectedFacilitiesIds.forEach((id) => {
+      //             comparativeArray.push(singleFacilityId.includes(id))
+      //         });
+      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && accomodation.n_rooms == selectedRooms && !comparativeArray.includes(false) && ) {
+      //             filteredAccomodations.push(accomodation);
+      //         }
+      //     });
+      //     this.filteredAccomodations = filteredAccomodations;
+      //     if (filteredAccomodations.length == 0) {
+      //         this.noRes = true;
+      //     } else {
+      //         this.noRes = false;
+      //     }
+      //     this.selectedBeds = 'Nessuna selezione';
+      //     this.selectedRooms = 'Nessuna selezione';
+      //     this.selectedFacilities = [];
+      //     this.distance = 20;
+      //     this.startSearch = false;
+      // }
+
     },
     resetClick: function resetClick() {
       this.searchKey = "";
@@ -2028,6 +2485,29 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Map.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Map",
+  props: {
+    accomodation: Object
+  },
+  data: function data() {
+    return {
+      center: [this.accomodation.longitude + "," + this.accomodation.latitude]
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Accomodation.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Accomodation.vue?vue&type=script&lang=js& ***!
@@ -2037,8 +2517,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_Map_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Map.vue */ "./resources/js/components/Map.vue");
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Accomodation",
+  components: {
+    Map: _components_Map_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       accomodation: null
@@ -2198,14 +2683,7 @@ var render = function render() {
         _vm.selectedRooms = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }
     }
-  }, [_c("option", {
-    attrs: {
-      value: "",
-      disabled: "",
-      selected: "",
-      hidden: ""
-    }
-  }), _vm._v(" "), _vm._l(_vm.rooms, function (room, index) {
+  }, [_c("option", [_vm._v(_vm._s(_vm.selectedRooms))]), _vm._v(" "), _vm._l(_vm.rooms, function (room, index) {
     return _c("option", {
       key: index,
       domProps: {
@@ -2234,12 +2712,9 @@ var render = function render() {
     }
   }, [_c("option", {
     attrs: {
-      value: "",
-      disabled: "",
-      selected: "",
-      hidden: ""
+      selected: ""
     }
-  }), _vm._v(" "), _vm._l(_vm.beds, function (bed, index) {
+  }, [_vm._v(_vm._s(_vm.selectedBeds))]), _vm._v(" "), _vm._l(_vm.beds, function (bed, index) {
     return _c("option", {
       key: index,
       domProps: {
@@ -2282,6 +2757,12 @@ var render = function render() {
       key: facility.id,
       staticClass: "form-check mr-3"
     }, [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.selectedFacilities,
+        expression: "selectedFacilities"
+      }],
       staticClass: "form-check-input",
       attrs: {
         name: "facilities",
@@ -2289,7 +2770,28 @@ var render = function render() {
         id: facility.name
       },
       domProps: {
-        value: facility.id
+        value: facility.id,
+        checked: Array.isArray(_vm.selectedFacilities) ? _vm._i(_vm.selectedFacilities, facility.id) > -1 : _vm.selectedFacilities
+      },
+      on: {
+        change: function change($event) {
+          var $$a = _vm.selectedFacilities,
+              $$el = $event.target,
+              $$c = $$el.checked ? true : false;
+
+          if (Array.isArray($$a)) {
+            var $$v = facility.id,
+                $$i = _vm._i($$a, $$v);
+
+            if ($$el.checked) {
+              $$i < 0 && (_vm.selectedFacilities = $$a.concat([$$v]));
+            } else {
+              $$i > -1 && (_vm.selectedFacilities = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            }
+          } else {
+            _vm.selectedFacilities = $$c;
+          }
+        }
       }
     }), _vm._v(" "), _c("label", {
       staticClass: "form-check-label",
@@ -2298,7 +2800,7 @@ var render = function render() {
       }
     }, [_vm._v("\n                    " + _vm._s(facility.name) + "\n                ")])]);
   }), 0)]), _vm._v(" "), _vm.startSearch ? _c("div", {
-    staticClass: "row row-cols-3"
+    staticClass: "row row-cols-3 mt-4"
   }, _vm._l(_vm.accomodations, function (accomodation) {
     return _c("div", {
       key: accomodation.id,
@@ -2319,7 +2821,15 @@ var render = function render() {
         accomodation: accomodation
       }
     })], 1);
-  }), 0)]);
+  }), 0), _vm._v(" "), _c("h4", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.noRes,
+      expression: "noRes"
+    }],
+    staticClass: "text-center"
+  }, [_vm._v("\n        La tua ricerca non ha prodotto risultati.\n    ")])]);
 };
 
 var staticRenderFns = [function () {
@@ -2413,9 +2923,9 @@ var render = function render() {
 
   return _c("header", {
     staticClass: "container-fluid"
-  }, [_c("nav", {
-    staticClass: "nav"
-  }, [_c("router-link", {
+  }, [_c("ul", {
+    staticClass: "ms-links"
+  }, [_c("li", [_c("router-link", {
     staticClass: "logo-container",
     attrs: {
       "aria-current": "page",
@@ -2425,7 +2935,63 @@ var render = function render() {
     }
   }, [_c("h4", {
     staticClass: "pippo"
-  }, [_vm._v("Bool BnB")])])], 1)]);
+  }, [_vm._v("Bool BnB")])])], 1), _vm._v(" "), _vm._m(0)])]);
+};
+
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("li", {
+    staticClass: "ms-auto"
+  }, [_c("a", {
+    staticClass: "btn ms-login",
+    attrs: {
+      "aria-current": "page",
+      href: "/login"
+    }
+  }, [_vm._v("Login")]), _vm._v(" "), _c("a", {
+    staticClass: "btn ms-register",
+    attrs: {
+      "aria-current": "page",
+      href: "/register"
+    }
+  }, [_vm._v("Register")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function render() {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "container"
+  }, [_c("div", {
+    attrs: {
+      id: "mapContainer"
+    }
+  }, [_c("img", {
+    attrs: {
+      src: "https://api.tomtom.com/map/1/staticimage?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&center=".concat(this.center, "&zoom=16&width=900"),
+      alt: ""
+    }
+  }), _vm._v(" "), _c("i", {
+    staticClass: "fas fa-map-marker-alt"
+  })])]);
 };
 
 var staticRenderFns = [];
@@ -2451,10 +3017,10 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "ms-container"
-  }, [_vm.accomodation ? _c("section", [_c("div", {
+  }, [_c("section", [_c("div", {
     staticClass: "card cardolina",
     staticStyle: {
-      width: "600px"
+      width: "650px"
     }
   }, [_vm.accomodation.image ? _c("div", [_c("img", {
     staticClass: "card-img-top",
@@ -2470,12 +3036,11 @@ var render = function render() {
     return _c("li", {
       key: idx
     }, [_vm._v("\n                        " + _vm._s(facility.name) + "\n                    ")]);
-  })], 2), _vm._v(" "), _c("a", {
-    staticClass: "btn btn-primary",
+  })], 2), _vm._v(" "), _c("Map", {
     attrs: {
-      href: "#"
+      accomodation: _vm.accomodation
     }
-  }, [_vm._v("Go somewhere")])])])]) : _vm._e()]);
+  })], 1)])])]);
 };
 
 var staticRenderFns = [];
@@ -6954,7 +7519,26 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "header[data-v-1f42fb90] {\n  width: 100%;\n  height: 80px;\n  background-color: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 1;\n}\nheader .pippo[data-v-1f42fb90] {\n  padding: 0 2rem;\n  line-height: 80px;\n}\nheader .pippo[data-v-1f42fb90]:hover {\n  text-decoration: underline;\n  color: white;\n}\nheader .ms_searchbar[data-v-1f42fb90] {\n  width: 50%;\n  text-align: center;\n  line-height: 80px;\n}\nheader .ms_searchbar select[data-v-1f42fb90] {\n  width: 150px;\n  height: 30px;\n  border-radius: 50px;\n  border: none;\n}\nheader .ms_searchbar input[data-v-1f42fb90] {\n  width: 500px;\n  height: 30px;\n  padding: 1rem;\n  border-radius: 50px;\n  border: none;\n}", ""]);
+exports.push([module.i, "header[data-v-1f42fb90] {\n  width: 100%;\n  height: 80px;\n  background-color: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 1;\n}\nheader .pippo[data-v-1f42fb90] {\n  padding: 0 2rem;\n  line-height: 80px;\n}\nheader .pippo[data-v-1f42fb90]:hover {\n  text-decoration: underline;\n  color: white;\n}\n.ms-links[data-v-1f42fb90] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  height: 80px;\n}\n.btn[data-v-1f42fb90] {\n  padding: 0.1rem 1rem;\n  font-weight: 600;\n}\n.ms-login[data-v-1f42fb90] {\n  color: white;\n  border-color: #ec2b00;\n  background-color: #ec2b00;\n}\n.ms-register[data-v-1f42fb90] {\n  color: black;\n  border-color: lightgoldenrodyellow;\n  background-color: lightgoldenrodyellow;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "#mapContainer[data-v-479a2f41] {\n  margin: 2rem auto;\n  position: relative;\n}\n#mapContainer img[data-v-479a2f41] {\n  border-radius: 20px;\n  width: 100%;\n  height: 100%;\n}\n#mapContainer i[data-v-479a2f41] {\n  font-size: 2rem;\n  color: #d63b33;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}", ""]);
 
 // exports
 
@@ -6973,7 +7557,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".cardolina[data-v-65eb1e6c] {\n  padding-top: 4rem;\n  margin-top: 4rem;\n  margin-left: 10rem;\n}\n.cardolina p[data-v-65eb1e6c] {\n  font-weight: lighter;\n}\n.cardolina li[data-v-65eb1e6c] {\n  display: inline-block;\n  margin: 0 0.5rem;\n  font-weight: lighter;\n}", ""]);
+exports.push([module.i, ".cardolina[data-v-65eb1e6c] {\n  margin: 4rem auto;\n}\n.cardolina p[data-v-65eb1e6c] {\n  font-weight: lighter;\n}\n.cardolina li[data-v-65eb1e6c] {\n  display: inline-block;\n  margin: 0 0.5rem;\n  font-weight: lighter;\n}", ""]);
 
 // exports
 
@@ -38371,6 +38955,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Accomodation.vue?vue&type=style&index=0&id=65eb1e6c&lang=scss&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Accomodation.vue?vue&type=style&index=0&id=65eb1e6c&lang=scss&scoped=true& ***!
@@ -54486,6 +55100,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Map.vue":
+/*!*****************************************!*\
+  !*** ./resources/js/components/Map.vue ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Map.vue?vue&type=template&id=479a2f41&scoped=true& */ "./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true&");
+/* harmony import */ var _Map_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Map.vue?vue&type=script&lang=js& */ "./resources/js/components/Map.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Map_vue_vue_type_style_index_0_id_479a2f41_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true& */ "./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Map_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "479a2f41",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Map.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Map.vue?vue&type=script&lang=js&":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/Map.vue?vue&type=script&lang=js& ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Map.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true& ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_style_index_0_id_479a2f41_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=style&index=0&id=479a2f41&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_style_index_0_id_479a2f41_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_style_index_0_id_479a2f41_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_style_index_0_id_479a2f41_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_style_index_0_id_479a2f41_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../node_modules/vue-loader/lib??vue-loader-options!./Map.vue?vue&type=template&id=479a2f41&scoped=true& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Map.vue?vue&type=template&id=479a2f41&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Map_vue_vue_type_template_id_479a2f41_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/front.js":
 /*!*******************************!*\
   !*** ./resources/js/front.js ***!
@@ -54738,7 +55439,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: "/:slug",
     name: "accomodation",
     component: _pages_Accomodation_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }]
+  } // {
+  //     path: "/login",
+  //     name: "login",
+  // },
+  ]
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 

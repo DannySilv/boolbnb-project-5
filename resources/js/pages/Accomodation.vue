@@ -1,7 +1,7 @@
 <template>
     <div class="ms-container">
-        <section v-if="accomodation">
-            <div class="card cardolina" style="width: 600px">
+        <section>
+            <div class="card cardolina" style="width: 650px">
                 <div v-if="accomodation.image">
                     <img
                         :src="accomodation.image"
@@ -28,8 +28,8 @@
                             {{ facility.name }}
                         </li>
                     </ul>
-
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <Map :accomodation="accomodation" />
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 </div>
             </div>
         </section>
@@ -40,8 +40,13 @@
 </template>
 
 <script>
+import Map from "../components/Map.vue";
+
 export default {
     name: "Accomodation",
+    components: {
+        Map,
+    },
     data() {
         return {
             accomodation: null,
@@ -67,16 +72,14 @@ export default {
 
 <style lang="scss" scoped>
 .cardolina {
-    padding-top: 4rem;
-    margin-top: 4rem;
-    margin-left: 10rem;
+    margin: 4rem auto;
     p {
         font-weight: lighter;
     }
     li {
-      display: inline-block;
-      margin: 0 0.5rem;
-      font-weight: lighter;
+        display: inline-block;
+        margin: 0 0.5rem;
+        font-weight: lighter;
     }
 }
 </style>
