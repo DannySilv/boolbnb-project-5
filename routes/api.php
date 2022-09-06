@@ -23,4 +23,5 @@ Route::namespace('Api')
         Route::get('/accomodations', 'AccomodationController@index');
         Route::get('/accomodations/{slug}', 'AccomodationController@show');
         Route::post('/distance', 'DistanceController@distance');
+        Route::post('/messages', 'MessageController@store');
     });

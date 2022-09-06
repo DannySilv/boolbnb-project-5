@@ -2375,7 +2375,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      accomodation: null
+      user_name: "",
+      user_surname: "",
+      email: "",
+      message_text: "",
+      accomodation_id: null,
+      user_id: null,
+      accomodation: null,
+      sending: false,
+      success: false
     };
   },
   created: function created() {
@@ -2389,11 +2397,37 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/api/accomodations/".concat(slug)).then(function (resp) {
         if (resp.data.success) {
           _this.accomodation = resp.data.results;
+          _this.accomodation_id = resp.data.results.id;
+          _this.user_id = resp.data.results.user_id;
         } else {
           _this.$router.push({
             name: "not-found"
           });
         }
+      });
+    },
+    sendMessage: function sendMessage() {
+      var _this2 = this;
+
+      this.sending = true;
+      axios.post("http://127.0.0.1:8000/api/messages", {
+        user_name: this.user_name,
+        user_surname: this.user_surname,
+        email: this.email,
+        message_text: this.message_text,
+        accomodation_id: this.accomodation_id,
+        user_id: this.user_id
+      }).then(function () {
+        if (_this2.user_name && _this2.user_surname && _this2.email && _this2.message_text && _this2.accomodation_id && _this2.user_id) {
+          _this2.user_name = "";
+          _this2.user_surname = "";
+          _this2.email = "";
+          _this2.message_text = "";
+          _this2.success = true;
+          _this2.sending = false; // console.log(resp);
+        }
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
   }
@@ -2877,7 +2911,7 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "ms-container"
+    staticClass: "ms-container d-flex justify-content-center"
   }, [_c("div", {
     staticClass: "card cardolina",
     staticStyle: {
@@ -2901,7 +2935,135 @@ var render = function render() {
     attrs: {
       accomodation: _vm.accomodation
     }
-  })], 1)])]);
+  })], 1)]), _vm._v(" "), _c("div", {
+    staticClass: "cardolina"
+  }, [_c("h3", {
+    staticClass: "mb-5"
+  }, [_vm._v("\n            Contatta il proprietario di questo appartamento\n        ")]), _vm._v(" "), _c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.sendMessage.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "user_name"
+    }
+  }, [_vm._v("Inserisci il tuo nome")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.user_name,
+      expression: "user_name"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "user_name",
+      placeholder: "Nome"
+    },
+    domProps: {
+      value: _vm.user_name
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.user_name = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "user_surname"
+    }
+  }, [_vm._v("Inserisci il tuo cognome")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.user_surname,
+      expression: "user_surname"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "user_surname",
+      placeholder: "Cognome"
+    },
+    domProps: {
+      value: _vm.user_surname
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.user_surname = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("Inserisci la tua email")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.email,
+      expression: "email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "email",
+      id: "email",
+      placeholder: "Email"
+    },
+    domProps: {
+      value: _vm.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.email = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "message_text"
+    }
+  }, [_vm._v("Inserisci il tuo messaggio")]), _vm._v(" "), _c("textarea", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.message_text,
+      expression: "message_text"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "message_text",
+      id: "message_text",
+      placeholder: "Cosa vuoi scriverci..."
+    },
+    domProps: {
+      value: _vm.message_text
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.message_text = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "btn ms_btn",
+    attrs: {
+      type: "submit"
+    }
+  }, [_vm._v("\n                " + _vm._s(_vm.sending ? "Inviato" : "Invia messaggio") + "\n            ")])])])]);
 };
 
 var staticRenderFns = [];
@@ -7418,7 +7580,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".cardolina[data-v-65eb1e6c] {\n  margin: 4rem auto;\n}\n.cardolina p[data-v-65eb1e6c] {\n  font-weight: lighter;\n}\n.cardolina li[data-v-65eb1e6c] {\n  display: inline-block;\n  margin: 0 0.5rem;\n  font-weight: lighter;\n}", ""]);
+exports.push([module.i, ".cardolina[data-v-65eb1e6c] {\n  margin: 4rem auto;\n}\n.cardolina p[data-v-65eb1e6c] {\n  font-weight: lighter;\n}\n.cardolina li[data-v-65eb1e6c] {\n  display: inline-block;\n  margin: 0 0.5rem;\n  font-weight: lighter;\n}\n.ms_btn[data-v-65eb1e6c] {\n  width: 100%;\n  margin: 1rem 0;\n  border: 1px solid #de2547;\n  color: #de2547;\n  transition: all 0.3s;\n}\n.ms_btn[data-v-65eb1e6c]:hover {\n  background-color: #de2547;\n  color: white;\n}", ""]);
 
 // exports
 
