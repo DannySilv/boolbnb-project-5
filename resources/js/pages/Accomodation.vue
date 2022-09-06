@@ -1,38 +1,35 @@
 <template>
     <div class="ms-container">
-        <section>
-            <div class="card cardolina" style="width: 650px">
-                <div v-if="accomodation.image">
-                    <img
-                        :src="accomodation.image"
-                        class="card-img-top"
-                        alt="Card image cap"
-                    />
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ accomodation.name }}</h5>
-                    <p>
-                        {{ accomodation.description }}
-                    </p>
-                    <p>Stanze: {{ accomodation.n_rooms }}</p>
-                    <p>Posti letto: {{ accomodation.n_beds }}</p>
-                    <p>Bagni: {{ accomodation.n_bathrooms }}</p>
-                    <p>Dimensione: {{ accomodation.size_sqm }} m²</p>
-                    <p>Indirizzo: {{ accomodation.address }}</p>
-                    <ul>
-                        Servizi:
-                        <li
-                            v-for="(facility, idx) in accomodation.facilities"
-                            :key="idx"
-                        >
-                            {{ facility.name }}
-                        </li>
-                    </ul>
-                    <Map :accomodation="accomodation" />
-                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                </div>
+        <div class="card cardolina" style="width: 650px">
+            <div v-if="accomodation.image">
+                <img
+                    :src="accomodation.image"
+                    class="card-img-top"
+                    alt="Card image cap"
+                />
             </div>
-        </section>
+            <div class="card-body">
+                <h5 class="card-title">{{ accomodation.name }}</h5>
+                <p>
+                    {{ accomodation.description }}
+                </p>
+                <p>Stanze: {{ accomodation.n_rooms }}</p>
+                <p>Posti letto: {{ accomodation.n_beds }}</p>
+                <p>Bagni: {{ accomodation.n_bathrooms }}</p>
+                <p>Dimensione: {{ accomodation.size_sqm }} m²</p>
+                <p>Indirizzo: {{ accomodation.address }}</p>
+                <ul>
+                    Servizi:
+                    <li
+                        v-for="(facility, idx) in accomodation.facilities"
+                        :key="idx"
+                    >
+                        {{ facility.name }}
+                    </li>
+                </ul>
+                <Map :accomodation="accomodation" />
+            </div>
+        </div>
         <!-- <section v-else>
             <h2>Loading</h2>
         </section> -->

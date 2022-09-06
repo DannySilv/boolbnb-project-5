@@ -1928,7 +1928,8 @@ __webpack_require__.r(__webpack_exports__);
       distance: 20,
       selectedBeds: "Nessuna selezione",
       selectedRooms: "Nessuna selezione",
-      selectedFacilities: []
+      selectedFacilities: [],
+      searchCoordinates: []
     };
   },
   created: function created() {
@@ -1965,478 +1966,326 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sendSearch: function sendSearch() {
-      // No filters
-      if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
-        var searchWord = this.searchKey;
-        this.filteredAccomodations = [];
-        var filteredAccomodations = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase())) {
-            filteredAccomodations.push(accomodation);
+      var _this2 = this;
+
+      this.getSearchPosition();
+      setTimeout(function () {
+        // No filters
+        if (_this2.selectedBeds == "Nessuna selezione" && _this2.selectedRooms == "Nessuna selezione" && _this2.selectedFacilities.length == 0 && _this2.searchKey != "") {
+          var searchLat = _this2.searchCoordinates[0].latitude;
+          var searchLon = _this2.searchCoordinates[0].longitude;
+          _this2.filteredAccomodations = [];
+          var filteredAccomodations = _this2.filteredAccomodations;
+
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, searchLat, searchLon);
+
+            if (searchDistance <= _this2.distance) {
+              filteredAccomodations.push(accomodation);
+            }
+          });
+
+          _this2.filteredAccomodations = filteredAccomodations;
+
+          if (filteredAccomodations.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = filteredAccomodations;
 
-        if (filteredAccomodations.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
+        } // Beds
+        else if (_this2.selectedBeds != "Nessuna selezione" && _this2.selectedRooms == "Nessuna selezione" && _this2.selectedFacilities.length == 0 && _this2.searchKey != "") {
+          var _searchLat = _this2.searchCoordinates[0].latitude;
+          var _searchLon = _this2.searchCoordinates[0].longitude;
+          var selectedBeds = _this2.selectedBeds;
+          _this2.filteredAccomodations = [];
+          var _filteredAccomodations = _this2.filteredAccomodations;
 
-        this.startSearch = false;
-      } // Beds
-      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
-        var _searchWord = this.searchKey;
-        var selectedBeds = this.selectedBeds;
-        this.filteredAccomodations = [];
-        var _filteredAccomodations = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          if (accomodation.address.toLowerCase().includes(_searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds) {
-            _filteredAccomodations.push(accomodation);
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, _searchLat, _searchLon);
+
+            if (accomodation.n_beds == selectedBeds && searchDistance <= _this2.distance) {
+              _filteredAccomodations.push(accomodation);
+            }
+          });
+
+          _this2.filteredAccomodations = _filteredAccomodations;
+
+          if (_filteredAccomodations.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = _filteredAccomodations;
 
-        if (_filteredAccomodations.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+          _this2.selectedBeds = "Nessuna selezione";
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
+        } // Rooms
+        else if (_this2.selectedBeds == "Nessuna selezione" && _this2.selectedRooms != "Nessuna selezione" && _this2.selectedFacilities.length == 0 && _this2.searchKey != "") {
+          var _searchLat2 = _this2.searchCoordinates[0].latitude;
+          var _searchLon2 = _this2.searchCoordinates[0].longitude;
+          var selectedRooms = _this2.selectedRooms;
+          _this2.filteredAccomodations = [];
+          var _filteredAccomodations2 = _this2.filteredAccomodations;
 
-        this.selectedBeds = "Nessuna selezione";
-        this.startSearch = false;
-      } // Rooms
-      else if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
-        var _searchWord2 = this.searchKey;
-        var selectedRooms = this.selectedRooms;
-        this.filteredAccomodations = [];
-        var _filteredAccomodations2 = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          if (accomodation.address.toLowerCase().includes(_searchWord2.toLowerCase()) && accomodation.n_rooms == selectedRooms) {
-            _filteredAccomodations2.push(accomodation);
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, _searchLat2, _searchLon2);
+
+            if (accomodation.n_rooms == selectedRooms && searchDistance <= _this2.distance) {
+              _filteredAccomodations2.push(accomodation);
+            }
+          });
+
+          _this2.filteredAccomodations = _filteredAccomodations2;
+
+          if (_filteredAccomodations2.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = _filteredAccomodations2;
 
-        if (_filteredAccomodations2.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+          _this2.selectedRooms = "Nessuna selezione";
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
+        } // Facilities
+        else if (_this2.selectedBeds == "Nessuna selezione" && _this2.selectedRooms == "Nessuna selezione" && _this2.selectedFacilities.length != 0 && _this2.searchKey != "") {
+          var _searchLat3 = _this2.searchCoordinates[0].latitude;
+          var _searchLon3 = _this2.searchCoordinates[0].longitude;
+          var selectedFacilities = _this2.selectedFacilities;
+          _this2.filteredAccomodations = [];
+          var _filteredAccomodations3 = _this2.filteredAccomodations;
 
-        this.selectedRooms = "Nessuna selezione";
-        this.startSearch = false;
-      } // Facilities
-      else if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
-        var _searchWord3 = this.searchKey;
-        var selectedFacilities = this.selectedFacilities;
-        this.filteredAccomodations = [];
-        var _filteredAccomodations3 = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          var singleFacilityId = [];
-          var selectedFacilitiesIds = [];
-          var comparativeArray = [];
-          accomodation.facilities.forEach(function (facility) {
-            singleFacilityId.push(facility.id);
-          });
-          selectedFacilities.forEach(function (id) {
-            selectedFacilitiesIds.push(id);
-          });
-          selectedFacilitiesIds.forEach(function (id) {
-            comparativeArray.push(singleFacilityId.includes(id));
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, _searchLat3, _searchLon3);
+
+            var singleFacilityId = [];
+            var selectedFacilitiesIds = [];
+            var comparativeArray = [];
+            accomodation.facilities.forEach(function (facility) {
+              singleFacilityId.push(facility.id);
+            });
+            selectedFacilities.forEach(function (id) {
+              selectedFacilitiesIds.push(id);
+            });
+            selectedFacilitiesIds.forEach(function (id) {
+              comparativeArray.push(singleFacilityId.includes(id));
+            });
+
+            if (!comparativeArray.includes(false) && searchDistance <= _this2.distance) {
+              _filteredAccomodations3.push(accomodation);
+            }
           });
 
-          if (accomodation.address.toLowerCase().includes(_searchWord3.toLowerCase()) && !comparativeArray.includes(false)) {
-            _filteredAccomodations3.push(accomodation);
+          _this2.filteredAccomodations = _filteredAccomodations3;
+
+          if (_filteredAccomodations3.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = _filteredAccomodations3;
 
-        if (_filteredAccomodations3.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
+        } // Beds + Rooms
+        else if (_this2.selectedBeds != "Nessuna selezione" && _this2.selectedRooms != "Nessuna selezione" && _this2.selectedFacilities.length == 0 && _this2.searchKey != "") {
+          var _searchLat4 = _this2.searchCoordinates[0].latitude;
+          var _searchLon4 = _this2.searchCoordinates[0].longitude;
+          var _selectedBeds = _this2.selectedBeds;
+          var _selectedRooms = _this2.selectedRooms;
+          _this2.filteredAccomodations = [];
+          var _filteredAccomodations4 = _this2.filteredAccomodations;
 
-        this.selectedFacilities = [];
-        this.startSearch = false;
-      } // Beds + Rooms
-      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length == 0 && this.distance == 20 && this.searchKey != "") {
-        var _searchWord4 = this.searchKey;
-        var _selectedBeds = this.selectedBeds;
-        var _selectedRooms = this.selectedRooms;
-        this.filteredAccomodations = [];
-        var _filteredAccomodations4 = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          if (accomodation.address.toLowerCase().includes(_searchWord4.toLowerCase()) && accomodation.n_beds == _selectedBeds && accomodation.n_rooms == _selectedRooms) {
-            _filteredAccomodations4.push(accomodation);
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, _searchLat4, _searchLon4);
+
+            if (accomodation.n_beds == _selectedBeds && accomodation.n_rooms == _selectedRooms && searchDistance <= _this2.distance) {
+              _filteredAccomodations4.push(accomodation);
+            }
+          });
+
+          _this2.filteredAccomodations = _filteredAccomodations4;
+
+          if (_filteredAccomodations4.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = _filteredAccomodations4;
 
-        if (_filteredAccomodations4.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+          _this2.selectedBeds = "Nessuna selezione";
+          _this2.selectedRooms = "Nessuna selezione";
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
+        } // Beds + Rooms + Facilities
+        else if (_this2.selectedBeds != "Nessuna selezione" && _this2.selectedRooms != "Nessuna selezione" && _this2.selectedFacilities.length != 0 && _this2.searchKey != "") {
+          var _searchLat5 = _this2.searchCoordinates[0].latitude;
+          var _searchLon5 = _this2.searchCoordinates[0].longitude;
+          var _selectedBeds2 = _this2.selectedBeds;
+          var _selectedRooms2 = _this2.selectedRooms;
+          var _selectedFacilities = _this2.selectedFacilities;
+          _this2.filteredAccomodations = [];
+          var _filteredAccomodations5 = _this2.filteredAccomodations;
 
-        this.selectedBeds = "Nessuna selezione";
-        this.selectedRooms = "Nessuna selezione";
-        this.startSearch = false;
-      } // Beds + Rooms + Facilities
-      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
-        var _searchWord5 = this.searchKey;
-        var _selectedBeds2 = this.selectedBeds;
-        var _selectedRooms2 = this.selectedRooms;
-        var _selectedFacilities = this.selectedFacilities;
-        this.filteredAccomodations = [];
-        var _filteredAccomodations5 = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          var singleFacilityId = [];
-          var selectedFacilitiesIds = [];
-          var comparativeArray = [];
-          accomodation.facilities.forEach(function (facility) {
-            singleFacilityId.push(facility.id);
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, _searchLat5, _searchLon5);
+
+            var singleFacilityId = [];
+            var selectedFacilitiesIds = [];
+            var comparativeArray = [];
+            accomodation.facilities.forEach(function (facility) {
+              singleFacilityId.push(facility.id);
+            });
+
+            _selectedFacilities.forEach(function (id) {
+              selectedFacilitiesIds.push(id);
+            });
+
+            selectedFacilitiesIds.forEach(function (id) {
+              comparativeArray.push(singleFacilityId.includes(id));
+            });
+
+            if (accomodation.n_beds == _selectedBeds2 && accomodation.n_rooms == _selectedRooms2 && !comparativeArray.includes(false) && searchDistance <= _this2.distance) {
+              _filteredAccomodations5.push(accomodation);
+            }
           });
 
-          _selectedFacilities.forEach(function (id) {
-            selectedFacilitiesIds.push(id);
-          });
+          _this2.filteredAccomodations = _filteredAccomodations5;
 
-          selectedFacilitiesIds.forEach(function (id) {
-            comparativeArray.push(singleFacilityId.includes(id));
-          });
-
-          if (accomodation.address.toLowerCase().includes(_searchWord5.toLowerCase()) && accomodation.n_beds == _selectedBeds2 && accomodation.n_rooms == _selectedRooms2 && !comparativeArray.includes(false)) {
-            _filteredAccomodations5.push(accomodation);
+          if (_filteredAccomodations5.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = _filteredAccomodations5;
 
-        if (_filteredAccomodations5.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+          _this2.selectedBeds = "Nessuna selezione";
+          _this2.selectedRooms = "Nessuna selezione";
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
+        } // Beds + Facilities
+        else if (_this2.selectedBeds != "Nessuna selezione" && _this2.selectedRooms == "Nessuna selezione" && _this2.selectedFacilities.length != 0 && _this2.searchKey != "") {
+          var _searchLat6 = _this2.searchCoordinates[0].latitude;
+          var _searchLon6 = _this2.searchCoordinates[0].longitude;
+          var _selectedBeds3 = _this2.selectedBeds;
+          var _selectedFacilities2 = _this2.selectedFacilities;
+          _this2.filteredAccomodations = [];
+          var _filteredAccomodations6 = _this2.filteredAccomodations;
 
-        this.selectedBeds = "Nessuna selezione";
-        this.selectedRooms = "Nessuna selezione";
-        this.selectedFacilities = [];
-        this.startSearch = false;
-      } // Beds + Facilities
-      else if (this.selectedBeds != "Nessuna selezione" && this.selectedRooms == "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
-        var _searchWord6 = this.searchKey;
-        var _selectedBeds3 = this.selectedBeds;
-        var _selectedFacilities2 = this.selectedFacilities;
-        this.filteredAccomodations = [];
-        var _filteredAccomodations6 = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          var singleFacilityId = [];
-          var selectedFacilitiesIds = [];
-          var comparativeArray = [];
-          accomodation.facilities.forEach(function (facility) {
-            singleFacilityId.push(facility.id);
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, _searchLat6, _searchLon6);
+
+            var singleFacilityId = [];
+            var selectedFacilitiesIds = [];
+            var comparativeArray = [];
+            accomodation.facilities.forEach(function (facility) {
+              singleFacilityId.push(facility.id);
+            });
+
+            _selectedFacilities2.forEach(function (id) {
+              selectedFacilitiesIds.push(id);
+            });
+
+            selectedFacilitiesIds.forEach(function (id) {
+              comparativeArray.push(singleFacilityId.includes(id));
+            });
+
+            if (accomodation.n_beds == _selectedBeds3 && !comparativeArray.includes(false) && searchDistance <= _this2.distance) {
+              _filteredAccomodations6.push(accomodation);
+            }
           });
 
-          _selectedFacilities2.forEach(function (id) {
-            selectedFacilitiesIds.push(id);
-          });
+          _this2.filteredAccomodations = _filteredAccomodations6;
 
-          selectedFacilitiesIds.forEach(function (id) {
-            comparativeArray.push(singleFacilityId.includes(id));
-          });
-
-          if (accomodation.address.toLowerCase().includes(_searchWord6.toLowerCase()) && accomodation.n_beds == _selectedBeds3 && !comparativeArray.includes(false)) {
-            _filteredAccomodations6.push(accomodation);
+          if (_filteredAccomodations6.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = _filteredAccomodations6;
 
-        if (_filteredAccomodations6.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+          _this2.selectedBeds = "Nessuna selezione";
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
+        } // Rooms + Facilities
+        else if (_this2.selectedBeds == "Nessuna selezione" && _this2.selectedRooms != "Nessuna selezione" && _this2.selectedFacilities.length != 0 && _this2.searchKey != "") {
+          var _searchLat7 = _this2.searchCoordinates[0].latitude;
+          var _searchLon7 = _this2.searchCoordinates[0].longitude;
+          var _selectedRooms3 = _this2.selectedRooms;
+          var _selectedFacilities3 = _this2.selectedFacilities;
+          _this2.filteredAccomodations = [];
+          var _filteredAccomodations7 = _this2.filteredAccomodations;
 
-        this.selectedBeds = "Nessuna selezione";
-        this.selectedFacilities = [];
-        this.startSearch = false;
-      } // Rooms + Facilities
-      else if (this.selectedBeds == "Nessuna selezione" && this.selectedRooms != "Nessuna selezione" && this.selectedFacilities.length != 0 && this.distance == 20 && this.searchKey != "") {
-        var _searchWord7 = this.searchKey;
-        var _selectedRooms3 = this.selectedRooms;
-        var _selectedFacilities3 = this.selectedFacilities;
-        this.filteredAccomodations = [];
-        var _filteredAccomodations7 = this.filteredAccomodations;
-        this.accomodations.forEach(function (accomodation) {
-          var singleFacilityId = [];
-          var selectedFacilitiesIds = [];
-          var comparativeArray = [];
-          accomodation.facilities.forEach(function (facility) {
-            singleFacilityId.push(facility.id);
+          _this2.accomodations.forEach(function (accomodation) {
+            var searchDistance = _this2.getDistanceFromLatLonInKm(accomodation.latitude, accomodation.longitude, _searchLat7, _searchLon7);
+
+            var singleFacilityId = [];
+            var selectedFacilitiesIds = [];
+            var comparativeArray = [];
+            accomodation.facilities.forEach(function (facility) {
+              singleFacilityId.push(facility.id);
+            });
+
+            _selectedFacilities3.forEach(function (id) {
+              selectedFacilitiesIds.push(id);
+            });
+
+            selectedFacilitiesIds.forEach(function (id) {
+              comparativeArray.push(singleFacilityId.includes(id));
+            });
+
+            if (accomodation.n_rooms == _selectedRooms3 && !comparativeArray.includes(false) && searchDistance <= _this2.distance) {
+              _filteredAccomodations7.push(accomodation);
+            }
           });
 
-          _selectedFacilities3.forEach(function (id) {
-            selectedFacilitiesIds.push(id);
-          });
+          _this2.filteredAccomodations = _filteredAccomodations7;
 
-          selectedFacilitiesIds.forEach(function (id) {
-            comparativeArray.push(singleFacilityId.includes(id));
-          });
-
-          if (accomodation.address.toLowerCase().includes(_searchWord7.toLowerCase()) && accomodation.n_rooms == _selectedRooms3 && !comparativeArray.includes(false)) {
-            _filteredAccomodations7.push(accomodation);
+          if (_filteredAccomodations7.length == 0) {
+            _this2.noRes = true;
+          } else {
+            _this2.noRes = false;
           }
-        });
-        this.filteredAccomodations = _filteredAccomodations7;
 
-        if (_filteredAccomodations7.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
+          _this2.selectedRooms = "Nessuna selezione";
+          _this2.startSearch = false;
+          _this2.searchCoordinates = [];
         }
-
-        this.selectedRooms = "Nessuna selezione";
-        this.selectedFacilities = [];
-        this.startSearch = false;
-      } // // Distance
-      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-      //      let searchWord = this.searchKey;
-      //      let distance = this.distance;
-      //      this.filteredAccomodations = [];
-      //      let filteredAccomodations = this.filteredAccomodations;
-      //      this.accomodations.forEach((accomodation) => {
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-      // // Beds + Distance
-      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-      //     let distance = this.distance;
-      //     let searchWord = this.searchKey;
-      //     let selectedBeds = this.selectedBeds;
-      //     this.filteredAccomodations = [];
-      //     let filteredAccomodations = this.filteredAccomodations;
-      //     this.accomodations.forEach((accomodation) => {
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.selectedBeds = 'Nessuna selezione';
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-      // // Rooms + Distance
-      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-      //     let distance = this.distance;
-      //     let searchWord = this.searchKey;
-      //     let selectedRooms = this.selectedRooms;
-      //     this.filteredAccomodations = [];
-      //     let filteredAccomodations = this.filteredAccomodations;
-      //     this.accomodations.forEach((accomodation) => {
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_rooms == selectedRooms && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.selectedRooms = 'Nessuna selezione';
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-      // // Facilities + Distance
-      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-      //     let searchWord = this.searchKey;
-      //     let selectedFacilities = this.selectedFacilities;
-      //     let distance = this.distance;
-      //     this.filteredAccomodations = [];
-      //     let filteredAccomodations = this.filteredAccomodations;
-      //     this.accomodations.forEach((accomodation) => {
-      //         let singleFacilityId = [];
-      //         let selectedFacilitiesIds = [];
-      //         let comparativeArray = [];
-      //         accomodation.facilities.forEach((facility) => {
-      //             singleFacilityId.push(facility.id);
-      //         });
-      //         selectedFacilities.forEach((id) => {
-      //             selectedFacilitiesIds.push(id);
-      //         });
-      //         selectedFacilitiesIds.forEach((id) => {
-      //             comparativeArray.push(singleFacilityId.includes(id))
-      //         });
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && !comparativeArray.includes(false) && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.selectedFacilities = [];
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-      // // Beds + Rooms + Distance
-      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-      //     let searchWord = this.searchKey;
-      //     let distance = this.distance;
-      //     let selectedBeds = this.selectedBeds;
-      //     let selectedRooms = this.selectedRooms;
-      //     this.filteredAccomodations = [];
-      //     let filteredAccomodations = this.filteredAccomodations;
-      //     this.accomodations.forEach((accomodation) => {
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && accomodation.n_rooms == selectedRooms && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.selectedBeds = 'Nessuna selezione';
-      //     this.selectedRooms = 'Nessuna selezione';
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-      // // Beds + Facilities + Distance
-      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-      //     let searchWord = this.searchKey;
-      //     let selectedBeds = this.selectedBeds;
-      //     let selectedFacilities = this.selectedFacilities;
-      //     let distance = this.distance;
-      //     this.filteredAccomodations = [];
-      //     let filteredAccomodations = this.filteredAccomodations;
-      //     this.accomodations.forEach((accomodation) => {
-      //         let singleFacilityId = [];
-      //         let selectedFacilitiesIds = [];
-      //         let comparativeArray = [];
-      //         accomodation.facilities.forEach((facility) => {
-      //             singleFacilityId.push(facility.id);
-      //         });
-      //         selectedFacilities.forEach((id) => {
-      //             selectedFacilitiesIds.push(id);
-      //         });
-      //         selectedFacilitiesIds.forEach((id) => {
-      //             comparativeArray.push(singleFacilityId.includes(id))
-      //         });
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && !comparativeArray.includes(false) && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.selectedBeds = 'Nessuna selezione';
-      //     this.selectedFacilities = [];
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-      // // Rooms + Facilities + Distance
-      // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-      //     let searchWord = this.searchKey;
-      //     let selectedRooms = this.selectedRooms;
-      //     let selectedFacilities = this.selectedFacilities;
-      //     let distance = this.distance;
-      //     this.filteredAccomodations = [];
-      //     let filteredAccomodations = this.filteredAccomodations;
-      //     this.accomodations.forEach((accomodation) => {
-      //         let singleFacilityId = [];
-      //         let selectedFacilitiesIds = [];
-      //         let comparativeArray = [];
-      //         accomodation.facilities.forEach((facility) => {
-      //             singleFacilityId.push(facility.id);
-      //         });
-      //         selectedFacilities.forEach((id) => {
-      //             selectedFacilitiesIds.push(id);
-      //         });
-      //         selectedFacilitiesIds.forEach((id) => {
-      //             comparativeArray.push(singleFacilityId.includes(id))
-      //         });
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_rooms == selectedRooms && !comparativeArray.includes(false) && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.selectedRooms = 'Nessuna selezione';
-      //     this.selectedFacilities = [];
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-      // // Beds + Rooms + Facilities + Radius
-      // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-      //     let searchWord = this.searchKey;
-      //     let selectedBeds = this.selectedBeds;
-      //     let selectedRooms = this.selectedRooms;
-      //     let selectedFacilities = this.selectedFacilities;
-      //     let distance = this.distance;
-      //     this.filteredAccomodations = [];
-      //     let filteredAccomodations = this.filteredAccomodations;
-      //     this.accomodations.forEach((accomodation) => {
-      //         let singleFacilityId = [];
-      //         let selectedFacilitiesIds = [];
-      //         let comparativeArray = [];
-      //         accomodation.facilities.forEach((facility) => {
-      //             singleFacilityId.push(facility.id);
-      //         });
-      //         selectedFacilities.forEach((id) => {
-      //             selectedFacilitiesIds.push(id);
-      //         });
-      //         selectedFacilitiesIds.forEach((id) => {
-      //             comparativeArray.push(singleFacilityId.includes(id))
-      //         });
-      //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && accomodation.n_rooms == selectedRooms && !comparativeArray.includes(false) && ) {
-      //             filteredAccomodations.push(accomodation);
-      //         }
-      //     });
-      //     this.filteredAccomodations = filteredAccomodations;
-      //     if (filteredAccomodations.length == 0) {
-      //         this.noRes = true;
-      //     } else {
-      //         this.noRes = false;
-      //     }
-      //     this.selectedBeds = 'Nessuna selezione';
-      //     this.selectedRooms = 'Nessuna selezione';
-      //     this.selectedFacilities = [];
-      //     this.distance = 20;
-      //     this.startSearch = false;
-      // }
-
+      }, 1500);
     },
     resetClick: function resetClick() {
       this.searchKey = "";
+      this.selectedFacilities = [];
+      this.selectedBeds = "Nessuna selezione";
+      this.selectedRooms = "Nessuna selezione";
+      this.distance = 20;
+      this.searchCoordinates = [];
       this.filteredAccomodations = [];
       this.startSearch = true;
+    },
+    getSearchPosition: function getSearchPosition() {
+      var _this3 = this;
+
+      axios.post("http://127.0.0.1:8000/api/distance/", {
+        params: {
+          query: this.searchKey
+        }
+      }).then(function (resp) {
+        _this3.searchCoordinates = resp.data.results;
+      });
+    },
+    getDistanceFromLatLonInKm: function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+      var R = 6371; // Radius of the earth in km
+
+      var dLat = this.deg2rad(lat2 - lat1); // deg2rad below
+
+      var dLon = this.deg2rad(lon2 - lon1);
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c; // Distance in km
+
+      return d;
+    },
+    deg2rad: function deg2rad(deg) {
+      return deg * (Math.PI / 180);
     }
   }
 });
@@ -2683,7 +2532,11 @@ var render = function render() {
         _vm.selectedRooms = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }
     }
-  }, [_c("option", [_vm._v(_vm._s(_vm.selectedRooms))]), _vm._v(" "), _vm._l(_vm.rooms, function (room, index) {
+  }, [_c("option", {
+    attrs: {
+      selected: ""
+    }
+  }, [_vm._v(_vm._s(_vm.selectedRooms))]), _vm._v(" "), _vm._l(_vm.rooms, function (room, index) {
     return _c("option", {
       key: index,
       domProps: {
@@ -2726,14 +2579,17 @@ var render = function render() {
   }, [_c("h6", [_vm._v("Inserisci il raggio di ricerca:")]), _vm._v(" "), _c("span", [_vm._v(_vm._s(_vm.distance) + " Km")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
-      rawName: "v-model",
+      rawName: "v-model.number",
       value: _vm.distance,
-      expression: "distance"
+      expression: "distance",
+      modifiers: {
+        number: true
+      }
     }],
     staticClass: "mx-3",
     attrs: {
       type: "range",
-      min: "20",
+      min: "5",
       max: "100",
       name: "radius",
       id: "radius"
@@ -2743,7 +2599,10 @@ var render = function render() {
     },
     on: {
       __r: function __r($event) {
-        _vm.distance = $event.target.value;
+        _vm.distance = _vm._n($event.target.value);
+      },
+      blur: function blur($event) {
+        return _vm.$forceUpdate();
       }
     }
   })]), _vm._v(" "), _c("label", {
@@ -2800,7 +2659,7 @@ var render = function render() {
       }
     }, [_vm._v("\n                    " + _vm._s(facility.name) + "\n                ")])]);
   }), 0)]), _vm._v(" "), _vm.startSearch ? _c("div", {
-    staticClass: "row row-cols-3 mt-4"
+    staticClass: "row row-cols-3"
   }, _vm._l(_vm.accomodations, function (accomodation) {
     return _c("div", {
       key: accomodation.id,
@@ -2885,7 +2744,7 @@ var render = function render() {
     staticClass: "card-title"
   }, [_vm._v(_vm._s(_vm.accomodation.name))]), _vm._v(" "), _c("p", {
     staticClass: "card-text"
-  }, [_vm._v(_vm._s(_vm.truncateText(_vm.accomodation.description, 50)))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n            " + _vm._s(_vm.truncateText(_vm.accomodation.description, 50)) + "\n        ")])]), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_c("router-link", {
     staticClass: "card-link btn btn-primary",
@@ -2950,13 +2809,15 @@ var staticRenderFns = [function () {
       "aria-current": "page",
       href: "/login"
     }
-  }, [_vm._v("Login")]), _vm._v(" "), _c("a", {
+  }, [_vm._v("Login\n                "), _c("i", {
+    staticClass: "fas fa-user"
+  })]), _vm._v(" "), _c("a", {
     staticClass: "btn ms-register",
     attrs: {
       "aria-current": "page",
       href: "/register"
     }
-  }, [_vm._v("Register")])]);
+  }, [_vm._v("Diventa un Host\n            ")])]);
 }];
 render._withStripped = true;
 
@@ -3017,7 +2878,7 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "ms-container"
-  }, [_c("section", [_c("div", {
+  }, [_c("div", {
     staticClass: "card cardolina",
     staticStyle: {
       width: "650px"
@@ -3032,15 +2893,15 @@ var render = function render() {
     staticClass: "card-body"
   }, [_c("h5", {
     staticClass: "card-title"
-  }, [_vm._v(_vm._s(_vm.accomodation.name))]), _vm._v(" "), _c("p", [_vm._v("\n                    " + _vm._s(_vm.accomodation.description) + "\n                ")]), _vm._v(" "), _c("p", [_vm._v("Stanze: " + _vm._s(_vm.accomodation.n_rooms))]), _vm._v(" "), _c("p", [_vm._v("Posti letto: " + _vm._s(_vm.accomodation.n_beds))]), _vm._v(" "), _c("p", [_vm._v("Bagni: " + _vm._s(_vm.accomodation.n_bathrooms))]), _vm._v(" "), _c("p", [_vm._v("Dimensione: " + _vm._s(_vm.accomodation.size_sqm) + " m²")]), _vm._v(" "), _c("p", [_vm._v("Indirizzo: " + _vm._s(_vm.accomodation.address))]), _vm._v(" "), _c("ul", [_vm._v("\n                    Servizi:\n                    "), _vm._l(_vm.accomodation.facilities, function (facility, idx) {
+  }, [_vm._v(_vm._s(_vm.accomodation.name))]), _vm._v(" "), _c("p", [_vm._v("\n                " + _vm._s(_vm.accomodation.description) + "\n            ")]), _vm._v(" "), _c("p", [_vm._v("Stanze: " + _vm._s(_vm.accomodation.n_rooms))]), _vm._v(" "), _c("p", [_vm._v("Posti letto: " + _vm._s(_vm.accomodation.n_beds))]), _vm._v(" "), _c("p", [_vm._v("Bagni: " + _vm._s(_vm.accomodation.n_bathrooms))]), _vm._v(" "), _c("p", [_vm._v("Dimensione: " + _vm._s(_vm.accomodation.size_sqm) + " m²")]), _vm._v(" "), _c("p", [_vm._v("Indirizzo: " + _vm._s(_vm.accomodation.address))]), _vm._v(" "), _c("ul", [_vm._v("\n                Servizi:\n                "), _vm._l(_vm.accomodation.facilities, function (facility, idx) {
     return _c("li", {
       key: idx
-    }, [_vm._v("\n                        " + _vm._s(facility.name) + "\n                    ")]);
+    }, [_vm._v("\n                    " + _vm._s(facility.name) + "\n                ")]);
   })], 2), _vm._v(" "), _c("Map", {
     attrs: {
       accomodation: _vm.accomodation
     }
-  })], 1)])])]);
+  })], 1)])]);
 };
 
 var staticRenderFns = [];
@@ -7481,7 +7342,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".searchbar[data-v-f65c8812] {\n  margin-top: 80px;\n  margin-bottom: 1rem;\n}\n.search[data-v-f65c8812] {\n  width: 500px;\n  height: 35px;\n  box-shadow: 1rem;\n  border: 1px solid;\n  border-radius: 40px;\n  padding-left: 1rem;\n  display: block;\n  position: relative;\n}\nh6[data-v-f65c8812] {\n  margin: 0;\n  margin-right: 2rem;\n  font-weight: 700;\n}\n.my_btns[data-v-f65c8812] {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.btn[data-v-f65c8812]:active {\n  box-shadow: none !important;\n}\n.btn[data-v-f65c8812]:focus {\n  outline: 0;\n  box-shadow: none !important;\n  color: red;\n}", ""]);
+exports.push([module.i, ".searchbar[data-v-f65c8812] {\n  margin-top: 80px;\n  margin-bottom: 1rem;\n}\n.search[data-v-f65c8812] {\n  width: 500px;\n  height: 35px;\n  box-shadow: 1rem;\n  border: 1px solid;\n  border-radius: 40px;\n  padding-left: 1rem;\n  display: block;\n  position: relative;\n}\nh6[data-v-f65c8812] {\n  margin: 0;\n  margin-right: 2rem;\n  font-weight: 700;\n}\n.my_btns[data-v-f65c8812] {\n  position: absolute;\n  top: 0;\n  right: 0;\n}\n.btn[data-v-f65c8812]:active {\n  box-shadow: none !important;\n}\n.btn[data-v-f65c8812]:focus {\n  outline: 0;\n  box-shadow: none !important;\n  color: #de2547;\n}", ""]);
 
 // exports
 
@@ -7519,7 +7380,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "header[data-v-1f42fb90] {\n  width: 100%;\n  height: 80px;\n  background-color: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 1;\n}\nheader .pippo[data-v-1f42fb90] {\n  padding: 0 2rem;\n  line-height: 80px;\n}\nheader .pippo[data-v-1f42fb90]:hover {\n  text-decoration: underline;\n  color: white;\n}\n.ms-links[data-v-1f42fb90] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  height: 80px;\n}\n.btn[data-v-1f42fb90] {\n  padding: 0.1rem 1rem;\n  font-weight: 600;\n}\n.ms-login[data-v-1f42fb90] {\n  color: white;\n  border-color: #ec2b00;\n  background-color: #ec2b00;\n}\n.ms-register[data-v-1f42fb90] {\n  color: black;\n  border-color: lightgoldenrodyellow;\n  background-color: lightgoldenrodyellow;\n}", ""]);
+exports.push([module.i, "header[data-v-1f42fb90] {\n  width: 100%;\n  height: 60px;\n  background-color: #de2547;\n  position: fixed;\n  z-index: 1;\n}\nheader .pippo[data-v-1f42fb90] {\n  padding: 0 2rem;\n  line-height: 80px;\n}\nheader .pippo[data-v-1f42fb90]:hover {\n  text-decoration: underline;\n  color: white;\n}\n.ms-links[data-v-1f42fb90] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  height: 60px;\n}\n.btn[data-v-1f42fb90] {\n  padding: 0.1rem 1rem;\n  font-weight: 600;\n}\n.ms-login[data-v-1f42fb90] {\n  color: white;\n  border-color: black;\n  background-color: black;\n}\n.ms-register[data-v-1f42fb90] {\n  color: black;\n  border-color: white;\n  background-color: white;\n}", ""]);
 
 // exports
 

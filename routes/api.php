@@ -18,5 +18,9 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/accomodations', 'Api\AccomodationController@index')->name('api.accomodations.index');
-Route::get('/accomodations/{slug}', 'Api\AccomodationController@show')->name('api.accomodations.show');
+Route::namespace('Api')
+    ->group(function () {
+        Route::get('/accomodations', 'AccomodationController@index');
+        Route::get('/accomodations/{slug}', 'AccomodationController@show');
+        Route::post('/distance', 'DistanceController@distance');
+    });

@@ -21,11 +21,12 @@
             </li> -->
             <li class="ms-auto">
                 <a class="btn ms-login" aria-current="page" href="/login"
-                    >Login</a
-                >
+                    >Login
+                    <i class="fas fa-user"></i>
+                </a>
                 <a class="btn ms-register" aria-current="page" href="/register"
-                    >Register</a
-                >
+                    >Diventa un Host
+                </a>
             </li>
         </ul>
     </header>
@@ -36,48 +37,41 @@ export default {
     name: "Header",
 };
 </script>
-
 <style lang="scss" scoped>
 header {
     width: 100%;
-    height: 80px;
-    background-color: rgba(0, 0, 0, 0.5);
+    height: 60px;
+    background-color: #de2547;
     position: fixed;
     z-index: 1;
-
     .pippo {
         padding: 0 2rem;
         line-height: 80px;
     }
-
     .pippo:hover {
         text-decoration: underline;
         // text-transform: uppercase;
         color: white;
     }
 }
-
 .ms-links {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
+    height: 60px;
 }
-
 .btn {
     padding: 0.1rem 1rem;
     font-weight: 600;
 }
-
 .ms-login {
     color: white;
-    border-color: #ec2b00;
-    background-color: #ec2b00;
+    border-color: black;
+    background-color: black;
 }
-
 .ms-register {
     color: black;
-    border-color: lightgoldenrodyellow;
-    background-color: lightgoldenrodyellow;
+    border-color: white;
+    background-color: white;
 }
 </style>

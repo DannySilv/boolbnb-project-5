@@ -32,7 +32,7 @@
             <div class="d-flex align-items-center">
                 <h6>Inserisci il numero di camere desiderato:</h6>
                 <select v-model="selectedRooms">
-                    <option>{{ selectedRooms }}</option>
+                    <option selected>{{ selectedRooms }}</option>
                     <option
                         :value="room"
                         v-for="(room, index) in rooms"
@@ -61,11 +61,11 @@
                 <input
                     class="mx-3"
                     type="range"
-                    min="20"
+                    min="5"
                     max="100"
                     name="radius"
                     id="radius"
-                    v-model="distance"
+                    v-model.number="distance"
                 />
             </div>
             <label for="facilities">Inserisci i servizi desiderati:</label>
@@ -89,7 +89,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="startSearch" class="row row-cols-3 mt-4">
+        <div v-if="startSearch" class="row row-cols-3">
             <div
                 v-for="accomodation in accomodations"
                 :key="accomodation.id"
@@ -171,6 +171,7 @@ export default {
             selectedBeds: "Nessuna selezione",
             selectedRooms: "Nessuna selezione",
             selectedFacilities: [],
+            searchCoordinates: [],
         };
     },
     created() {
@@ -199,551 +200,398 @@ export default {
     },
     methods: {
         sendSearch() {
-            // No filters
-            if (
-                this.selectedBeds == "Nessuna selezione" &&
-                this.selectedRooms == "Nessuna selezione" &&
-                this.selectedFacilities.length == 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase())
-                    ) {
-                        filteredAccomodations.push(accomodation);
+            this.getSearchPosition();
+            setTimeout(() => {
+                // No filters
+                if (
+                    this.selectedBeds == "Nessuna selezione" &&
+                    this.selectedRooms == "Nessuna selezione" &&
+                    this.selectedFacilities.length == 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        if (searchDistance <= this.distance) {
+                            filteredAccomodations.push(accomodation);
+                        }
+                    });
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.startSearch = false;
-            }
-            // Beds
-            else if (
-                this.selectedBeds != "Nessuna selezione" &&
-                this.selectedRooms == "Nessuna selezione" &&
-                this.selectedFacilities.length == 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                let selectedBeds = this.selectedBeds;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase()) &&
-                        accomodation.n_beds == selectedBeds
-                    ) {
-                        filteredAccomodations.push(accomodation);
+                // Beds
+                else if (
+                    this.selectedBeds != "Nessuna selezione" &&
+                    this.selectedRooms == "Nessuna selezione" &&
+                    this.selectedFacilities.length == 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    let selectedBeds = this.selectedBeds;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        if (
+                            accomodation.n_beds == selectedBeds &&
+                            searchDistance <= this.distance
+                        ) {
+                            filteredAccomodations.push(accomodation);
+                        }
+                    });
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.selectedBeds = "Nessuna selezione";
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.selectedBeds = "Nessuna selezione";
-                this.startSearch = false;
-            }
-            // Rooms
-            else if (
-                this.selectedBeds == "Nessuna selezione" &&
-                this.selectedRooms != "Nessuna selezione" &&
-                this.selectedFacilities.length == 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                let selectedRooms = this.selectedRooms;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase()) &&
-                        accomodation.n_rooms == selectedRooms
-                    ) {
-                        filteredAccomodations.push(accomodation);
+                // Rooms
+                else if (
+                    this.selectedBeds == "Nessuna selezione" &&
+                    this.selectedRooms != "Nessuna selezione" &&
+                    this.selectedFacilities.length == 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    let selectedRooms = this.selectedRooms;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        if (
+                            accomodation.n_rooms == selectedRooms &&
+                            searchDistance <= this.distance
+                        ) {
+                            filteredAccomodations.push(accomodation);
+                        }
+                    });
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.selectedRooms = "Nessuna selezione";
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.selectedRooms = "Nessuna selezione";
-                this.startSearch = false;
-            }
-            // Facilities
-            else if (
-                this.selectedBeds == "Nessuna selezione" &&
-                this.selectedRooms == "Nessuna selezione" &&
-                this.selectedFacilities.length != 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                let selectedFacilities = this.selectedFacilities;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    let singleFacilityId = [];
-                    let selectedFacilitiesIds = [];
-                    let comparativeArray = [];
-                    accomodation.facilities.forEach((facility) => {
-                        singleFacilityId.push(facility.id);
+                // Facilities
+                else if (
+                    this.selectedBeds == "Nessuna selezione" &&
+                    this.selectedRooms == "Nessuna selezione" &&
+                    this.selectedFacilities.length != 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    let selectedFacilities = this.selectedFacilities;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        let singleFacilityId = [];
+                        let selectedFacilitiesIds = [];
+                        let comparativeArray = [];
+                        accomodation.facilities.forEach((facility) => {
+                            singleFacilityId.push(facility.id);
+                        });
+                        selectedFacilities.forEach((id) => {
+                            selectedFacilitiesIds.push(id);
+                        });
+                        selectedFacilitiesIds.forEach((id) => {
+                            comparativeArray.push(
+                                singleFacilityId.includes(id)
+                            );
+                        });
+                        if (
+                            !comparativeArray.includes(false) &&
+                            searchDistance <= this.distance
+                        ) {
+                            filteredAccomodations.push(accomodation);
+                        }
                     });
-                    selectedFacilities.forEach((id) => {
-                        selectedFacilitiesIds.push(id);
-                    });
-                    selectedFacilitiesIds.forEach((id) => {
-                        comparativeArray.push(singleFacilityId.includes(id));
-                    });
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase()) &&
-                        !comparativeArray.includes(false)
-                    ) {
-                        filteredAccomodations.push(accomodation);
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.selectedFacilities = [];
-                this.startSearch = false;
-            }
-            // Beds + Rooms
-            else if (
-                this.selectedBeds != "Nessuna selezione" &&
-                this.selectedRooms != "Nessuna selezione" &&
-                this.selectedFacilities.length == 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                let selectedBeds = this.selectedBeds;
-                let selectedRooms = this.selectedRooms;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase()) &&
-                        accomodation.n_beds == selectedBeds &&
-                        accomodation.n_rooms == selectedRooms
-                    ) {
-                        filteredAccomodations.push(accomodation);
+                // Beds + Rooms
+                else if (
+                    this.selectedBeds != "Nessuna selezione" &&
+                    this.selectedRooms != "Nessuna selezione" &&
+                    this.selectedFacilities.length == 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    let selectedBeds = this.selectedBeds;
+                    let selectedRooms = this.selectedRooms;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        if (
+                            accomodation.n_beds == selectedBeds &&
+                            accomodation.n_rooms == selectedRooms &&
+                            searchDistance <= this.distance
+                        ) {
+                            filteredAccomodations.push(accomodation);
+                        }
+                    });
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.selectedBeds = "Nessuna selezione";
+                    this.selectedRooms = "Nessuna selezione";
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.selectedBeds = "Nessuna selezione";
-                this.selectedRooms = "Nessuna selezione";
-                this.startSearch = false;
-            }
-            // Beds + Rooms + Facilities
-            else if (
-                this.selectedBeds != "Nessuna selezione" &&
-                this.selectedRooms != "Nessuna selezione" &&
-                this.selectedFacilities.length != 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                let selectedBeds = this.selectedBeds;
-                let selectedRooms = this.selectedRooms;
-                let selectedFacilities = this.selectedFacilities;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    let singleFacilityId = [];
-                    let selectedFacilitiesIds = [];
-                    let comparativeArray = [];
-                    accomodation.facilities.forEach((facility) => {
-                        singleFacilityId.push(facility.id);
+                // Beds + Rooms + Facilities
+                else if (
+                    this.selectedBeds != "Nessuna selezione" &&
+                    this.selectedRooms != "Nessuna selezione" &&
+                    this.selectedFacilities.length != 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    let selectedBeds = this.selectedBeds;
+                    let selectedRooms = this.selectedRooms;
+                    let selectedFacilities = this.selectedFacilities;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        let singleFacilityId = [];
+                        let selectedFacilitiesIds = [];
+                        let comparativeArray = [];
+                        accomodation.facilities.forEach((facility) => {
+                            singleFacilityId.push(facility.id);
+                        });
+                        selectedFacilities.forEach((id) => {
+                            selectedFacilitiesIds.push(id);
+                        });
+                        selectedFacilitiesIds.forEach((id) => {
+                            comparativeArray.push(
+                                singleFacilityId.includes(id)
+                            );
+                        });
+                        if (
+                            accomodation.n_beds == selectedBeds &&
+                            accomodation.n_rooms == selectedRooms &&
+                            !comparativeArray.includes(false) &&
+                            searchDistance <= this.distance
+                        ) {
+                            filteredAccomodations.push(accomodation);
+                        }
                     });
-                    selectedFacilities.forEach((id) => {
-                        selectedFacilitiesIds.push(id);
-                    });
-                    selectedFacilitiesIds.forEach((id) => {
-                        comparativeArray.push(singleFacilityId.includes(id));
-                    });
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase()) &&
-                        accomodation.n_beds == selectedBeds &&
-                        accomodation.n_rooms == selectedRooms &&
-                        !comparativeArray.includes(false)
-                    ) {
-                        filteredAccomodations.push(accomodation);
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.selectedBeds = "Nessuna selezione";
+                    this.selectedRooms = "Nessuna selezione";
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.selectedBeds = "Nessuna selezione";
-                this.selectedRooms = "Nessuna selezione";
-                this.selectedFacilities = [];
-                this.startSearch = false;
-            }
-            // Beds + Facilities
-            else if (
-                this.selectedBeds != "Nessuna selezione" &&
-                this.selectedRooms == "Nessuna selezione" &&
-                this.selectedFacilities.length != 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                let selectedBeds = this.selectedBeds;
-                let selectedFacilities = this.selectedFacilities;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    let singleFacilityId = [];
-                    let selectedFacilitiesIds = [];
-                    let comparativeArray = [];
-                    accomodation.facilities.forEach((facility) => {
-                        singleFacilityId.push(facility.id);
+                // Beds + Facilities
+                else if (
+                    this.selectedBeds != "Nessuna selezione" &&
+                    this.selectedRooms == "Nessuna selezione" &&
+                    this.selectedFacilities.length != 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    let selectedBeds = this.selectedBeds;
+                    let selectedFacilities = this.selectedFacilities;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        let singleFacilityId = [];
+                        let selectedFacilitiesIds = [];
+                        let comparativeArray = [];
+                        accomodation.facilities.forEach((facility) => {
+                            singleFacilityId.push(facility.id);
+                        });
+                        selectedFacilities.forEach((id) => {
+                            selectedFacilitiesIds.push(id);
+                        });
+                        selectedFacilitiesIds.forEach((id) => {
+                            comparativeArray.push(
+                                singleFacilityId.includes(id)
+                            );
+                        });
+                        if (
+                            accomodation.n_beds == selectedBeds &&
+                            !comparativeArray.includes(false) &&
+                            searchDistance <= this.distance
+                        ) {
+                            filteredAccomodations.push(accomodation);
+                        }
                     });
-                    selectedFacilities.forEach((id) => {
-                        selectedFacilitiesIds.push(id);
-                    });
-                    selectedFacilitiesIds.forEach((id) => {
-                        comparativeArray.push(singleFacilityId.includes(id));
-                    });
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase()) &&
-                        accomodation.n_beds == selectedBeds &&
-                        !comparativeArray.includes(false)
-                    ) {
-                        filteredAccomodations.push(accomodation);
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.selectedBeds = "Nessuna selezione";
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.selectedBeds = "Nessuna selezione";
-                this.selectedFacilities = [];
-                this.startSearch = false;
-            }
-            // Rooms + Facilities
-            else if (
-                this.selectedBeds == "Nessuna selezione" &&
-                this.selectedRooms != "Nessuna selezione" &&
-                this.selectedFacilities.length != 0 &&
-                this.distance == 20 &&
-                this.searchKey != ""
-            ) {
-                let searchWord = this.searchKey;
-                let selectedRooms = this.selectedRooms;
-                let selectedFacilities = this.selectedFacilities;
-                this.filteredAccomodations = [];
-                let filteredAccomodations = this.filteredAccomodations;
-                this.accomodations.forEach((accomodation) => {
-                    let singleFacilityId = [];
-                    let selectedFacilitiesIds = [];
-                    let comparativeArray = [];
-                    accomodation.facilities.forEach((facility) => {
-                        singleFacilityId.push(facility.id);
+                // Rooms + Facilities
+                else if (
+                    this.selectedBeds == "Nessuna selezione" &&
+                    this.selectedRooms != "Nessuna selezione" &&
+                    this.selectedFacilities.length != 0 &&
+                    this.searchKey != ""
+                ) {
+                    let searchLat = this.searchCoordinates[0].latitude;
+                    let searchLon = this.searchCoordinates[0].longitude;
+                    let selectedRooms = this.selectedRooms;
+                    let selectedFacilities = this.selectedFacilities;
+                    this.filteredAccomodations = [];
+                    let filteredAccomodations = this.filteredAccomodations;
+                    this.accomodations.forEach((accomodation) => {
+                        let searchDistance = this.getDistanceFromLatLonInKm(
+                            accomodation.latitude,
+                            accomodation.longitude,
+                            searchLat,
+                            searchLon
+                        );
+                        let singleFacilityId = [];
+                        let selectedFacilitiesIds = [];
+                        let comparativeArray = [];
+                        accomodation.facilities.forEach((facility) => {
+                            singleFacilityId.push(facility.id);
+                        });
+                        selectedFacilities.forEach((id) => {
+                            selectedFacilitiesIds.push(id);
+                        });
+                        selectedFacilitiesIds.forEach((id) => {
+                            comparativeArray.push(
+                                singleFacilityId.includes(id)
+                            );
+                        });
+                        if (
+                            accomodation.n_rooms == selectedRooms &&
+                            !comparativeArray.includes(false) &&
+                            searchDistance <= this.distance
+                        ) {
+                            filteredAccomodations.push(accomodation);
+                        }
                     });
-                    selectedFacilities.forEach((id) => {
-                        selectedFacilitiesIds.push(id);
-                    });
-                    selectedFacilitiesIds.forEach((id) => {
-                        comparativeArray.push(singleFacilityId.includes(id));
-                    });
-                    if (
-                        accomodation.address
-                            .toLowerCase()
-                            .includes(searchWord.toLowerCase()) &&
-                        accomodation.n_rooms == selectedRooms &&
-                        !comparativeArray.includes(false)
-                    ) {
-                        filteredAccomodations.push(accomodation);
+                    this.filteredAccomodations = filteredAccomodations;
+                    if (filteredAccomodations.length == 0) {
+                        this.noRes = true;
+                    } else {
+                        this.noRes = false;
                     }
-                });
-                this.filteredAccomodations = filteredAccomodations;
-                if (filteredAccomodations.length == 0) {
-                    this.noRes = true;
-                } else {
-                    this.noRes = false;
+                    this.selectedRooms = "Nessuna selezione";
+                    this.startSearch = false;
+                    this.searchCoordinates = [];
                 }
-                this.selectedRooms = "Nessuna selezione";
-                this.selectedFacilities = [];
-                this.startSearch = false;
-            }
-            // // Distance
-            // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-            //      let searchWord = this.searchKey;
-            //      let distance = this.distance;
-            //      this.filteredAccomodations = [];
-            //      let filteredAccomodations = this.filteredAccomodations;
-            //      this.accomodations.forEach((accomodation) => {
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
-            // // Beds + Distance
-            // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-            //     let distance = this.distance;
-            //     let searchWord = this.searchKey;
-            //     let selectedBeds = this.selectedBeds;
-            //     this.filteredAccomodations = [];
-            //     let filteredAccomodations = this.filteredAccomodations;
-            //     this.accomodations.forEach((accomodation) => {
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.selectedBeds = 'Nessuna selezione';
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
-            // // Rooms + Distance
-            // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-            //     let distance = this.distance;
-            //     let searchWord = this.searchKey;
-            //     let selectedRooms = this.selectedRooms;
-            //     this.filteredAccomodations = [];
-            //     let filteredAccomodations = this.filteredAccomodations;
-            //     this.accomodations.forEach((accomodation) => {
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_rooms == selectedRooms && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.selectedRooms = 'Nessuna selezione';
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
-            // // Facilities + Distance
-            // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-            //     let searchWord = this.searchKey;
-            //     let selectedFacilities = this.selectedFacilities;
-            //     let distance = this.distance;
-            //     this.filteredAccomodations = [];
-            //     let filteredAccomodations = this.filteredAccomodations;
-            //     this.accomodations.forEach((accomodation) => {
-            //         let singleFacilityId = [];
-            //         let selectedFacilitiesIds = [];
-            //         let comparativeArray = [];
-            //         accomodation.facilities.forEach((facility) => {
-            //             singleFacilityId.push(facility.id);
-            //         });
-            //         selectedFacilities.forEach((id) => {
-            //             selectedFacilitiesIds.push(id);
-            //         });
-            //         selectedFacilitiesIds.forEach((id) => {
-            //             comparativeArray.push(singleFacilityId.includes(id))
-            //         });
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && !comparativeArray.includes(false) && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.selectedFacilities = [];
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
-            // // Beds + Rooms + Distance
-            // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length == 0 && this.distance != 20 && this.searchKey != '') {
-            //     let searchWord = this.searchKey;
-            //     let distance = this.distance;
-            //     let selectedBeds = this.selectedBeds;
-            //     let selectedRooms = this.selectedRooms;
-            //     this.filteredAccomodations = [];
-            //     let filteredAccomodations = this.filteredAccomodations;
-            //     this.accomodations.forEach((accomodation) => {
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && accomodation.n_rooms == selectedRooms && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.selectedBeds = 'Nessuna selezione';
-            //     this.selectedRooms = 'Nessuna selezione';
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
-            // // Beds + Facilities + Distance
-            // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms == 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-            //     let searchWord = this.searchKey;
-            //     let selectedBeds = this.selectedBeds;
-            //     let selectedFacilities = this.selectedFacilities;
-            //     let distance = this.distance;
-            //     this.filteredAccomodations = [];
-            //     let filteredAccomodations = this.filteredAccomodations;
-            //     this.accomodations.forEach((accomodation) => {
-            //         let singleFacilityId = [];
-            //         let selectedFacilitiesIds = [];
-            //         let comparativeArray = [];
-            //         accomodation.facilities.forEach((facility) => {
-            //             singleFacilityId.push(facility.id);
-            //         });
-            //         selectedFacilities.forEach((id) => {
-            //             selectedFacilitiesIds.push(id);
-            //         });
-            //         selectedFacilitiesIds.forEach((id) => {
-            //             comparativeArray.push(singleFacilityId.includes(id))
-            //         });
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && !comparativeArray.includes(false) && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.selectedBeds = 'Nessuna selezione';
-            //     this.selectedFacilities = [];
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
-            // // Rooms + Facilities + Distance
-            // else if (this.selectedBeds == 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-            //     let searchWord = this.searchKey;
-            //     let selectedRooms = this.selectedRooms;
-            //     let selectedFacilities = this.selectedFacilities;
-            //     let distance = this.distance;
-            //     this.filteredAccomodations = [];
-            //     let filteredAccomodations = this.filteredAccomodations;
-            //     this.accomodations.forEach((accomodation) => {
-            //         let singleFacilityId = [];
-            //         let selectedFacilitiesIds = [];
-            //         let comparativeArray = [];
-            //         accomodation.facilities.forEach((facility) => {
-            //             singleFacilityId.push(facility.id);
-            //         });
-            //         selectedFacilities.forEach((id) => {
-            //             selectedFacilitiesIds.push(id);
-            //         });
-            //         selectedFacilitiesIds.forEach((id) => {
-            //             comparativeArray.push(singleFacilityId.includes(id))
-            //         });
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_rooms == selectedRooms && !comparativeArray.includes(false) && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.selectedRooms = 'Nessuna selezione';
-            //     this.selectedFacilities = [];
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
-            // // Beds + Rooms + Facilities + Radius
-            // else if (this.selectedBeds != 'Nessuna selezione' && this.selectedRooms != 'Nessuna selezione' && this.selectedFacilities.length != 0 && this.distance != 20 && this.searchKey != '') {
-            //     let searchWord = this.searchKey;
-            //     let selectedBeds = this.selectedBeds;
-            //     let selectedRooms = this.selectedRooms;
-            //     let selectedFacilities = this.selectedFacilities;
-            //     let distance = this.distance;
-            //     this.filteredAccomodations = [];
-            //     let filteredAccomodations = this.filteredAccomodations;
-            //     this.accomodations.forEach((accomodation) => {
-            //         let singleFacilityId = [];
-            //         let selectedFacilitiesIds = [];
-            //         let comparativeArray = [];
-            //         accomodation.facilities.forEach((facility) => {
-            //             singleFacilityId.push(facility.id);
-            //         });
-            //         selectedFacilities.forEach((id) => {
-            //             selectedFacilitiesIds.push(id);
-            //         });
-            //         selectedFacilitiesIds.forEach((id) => {
-            //             comparativeArray.push(singleFacilityId.includes(id))
-            //         });
-            //         if (accomodation.address.toLowerCase().includes(searchWord.toLowerCase()) && accomodation.n_beds == selectedBeds && accomodation.n_rooms == selectedRooms && !comparativeArray.includes(false) && ) {
-            //             filteredAccomodations.push(accomodation);
-            //         }
-            //     });
-            //     this.filteredAccomodations = filteredAccomodations;
-            //     if (filteredAccomodations.length == 0) {
-            //         this.noRes = true;
-            //     } else {
-            //         this.noRes = false;
-            //     }
-            //     this.selectedBeds = 'Nessuna selezione';
-            //     this.selectedRooms = 'Nessuna selezione';
-            //     this.selectedFacilities = [];
-            //     this.distance = 20;
-            //     this.startSearch = false;
-            // }
+            }, 1500);
         },
         resetClick() {
             this.searchKey = "";
+            this.selectedFacilities = [];
+            this.selectedBeds = "Nessuna selezione";
+            this.selectedRooms = "Nessuna selezione";
+            this.distance = 20;
+            this.searchCoordinates = [];
             this.filteredAccomodations = [];
             this.startSearch = true;
+        },
+        getSearchPosition() {
+            axios
+                .post("http://127.0.0.1:8000/api/distance/", {
+                    params: {
+                        query: this.searchKey,
+                    },
+                })
+                .then((resp) => {
+                    this.searchCoordinates = resp.data.results;
+                });
+        },
+        getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the earth in km
+            let dLat = this.deg2rad(lat2 - lat1); // deg2rad below
+            let dLon = this.deg2rad(lon2 - lon1);
+            let a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(this.deg2rad(lat1)) *
+                    Math.cos(this.deg2rad(lat2)) *
+                    Math.sin(dLon / 2) *
+                    Math.sin(dLon / 2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            let d = R * c; // Distance in km
+            return d;
+        },
+
+        deg2rad(deg) {
+            return deg * (Math.PI / 180);
         },
     },
 };
@@ -783,6 +631,6 @@ h6 {
 .btn:focus {
     outline: 0;
     box-shadow: none !important;
-    color: red;
+    color: #de2547;
 }
 </style>

@@ -9,6 +9,78 @@
   transform: scale(1.05);
 }
 
+#app {
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+  margin: 0 !important;
+}
+
+nav {
+  width: 100%;
+  height: 60px !important;
+  background-color: #de2547;
+  position: fixed !important;
+  z-index: 1;
+}
+
+.pippo {
+  padding: 0 2rem;
+  line-height: 60px;
+  font-size: 1.4rem;
+  color: white;
+}
+
+.pippo:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+.ms-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+}
+
+.btn {
+  padding: 0.1rem 1rem;
+  font-weight: 600;
+}
+
+.ms-login {
+  color: white;
+  border-color: #ec2b00;
+  background-color: #ec2b00;
+}
+
+.ms-register {
+  color: black;
+  border-color: white;
+  background-color: white;
+}
+
+.ms-logout {
+  color: white;
+  border-color: #2e2e2e;
+  background-color: #2e2e2e;
+}
+
+main {
+  height: 100vh;
+  margin-top: 60px !important;
+}
+
+.ms-text {
+  color: white;
+}
+
+.ms-dash {
+  margin-top: 60px;
+}
+
 /*!
  * Bootstrap v4.6.2 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors

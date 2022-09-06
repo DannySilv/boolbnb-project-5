@@ -38,6 +38,11 @@ class Accomodation extends Model
         return $this->belongsToMany('App\Facility');
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\Message');
+    }
+
     public static function generateAccomodationSlug($name)
     {
         $base_slug = Str::slug($name, '-');
