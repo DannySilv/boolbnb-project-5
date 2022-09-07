@@ -46,7 +46,7 @@ header {
     z-index: 1;
     .pippo {
         padding: 0 2rem;
-        line-height: 80px;
+        line-height: 60px;
     }
     .pippo:hover {
         text-decoration: underline;
