@@ -2,14 +2,14 @@
 
 @section('content')
     <h1 class="mb-5">I miei appartamenti</h1>
-    <div class="row row-cols-3">
+    <div class="row text-center d-flex flex-wrap row-cols-xl-4 row-cols-lg-3 row-cols-md-2">
         @foreach ($accomodations as $accomodation)
                 {{-- Single accomodation --}}
                 <div class="col">
-                    <div class="card mb-3" style="width: 17rem; height: 370px">
+                    <div class="card mb-5 mx-auto mx-3" style="width: 17rem; height: 370px; border-radius: 20px">
                         @if ($accomodation->image)
-                            <img class="card-img-top" src="{{ asset('storage/' . $accomodation->image) }}"
-                                alt="Card image cap">
+                            <img class="card-img-top h-50" src="{{ asset('storage/' . $accomodation->image) }}"
+                                alt="Card image cap" style="overflow:hidden; border-top-left-radius: 20px; border-top-right-radius: 20px">
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $accomodation->name }}</h5>
@@ -24,5 +24,6 @@
                 {{-- /Single Accomodation --}}
         @endforeach
     </div>
+   
     {{-- {{ $accomodations->links() }} --}}
 @endsection
