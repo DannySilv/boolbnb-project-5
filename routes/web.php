@@ -30,3 +30,6 @@ Route::middleware('auth')
         return view('guest.home');
     })->where('any', '.*');
     
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
