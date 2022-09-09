@@ -29,7 +29,7 @@ class MessageController extends Controller
     private function getValidationRules()
     {
         return [
-            'appartment_id' => 'required',
+            'accomodation_id' => 'required',
             'user_id' => 'required',
             'user_name' => 'required',
             'user_surname' => 'required',

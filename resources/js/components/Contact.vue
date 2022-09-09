@@ -66,7 +66,7 @@
 export default {
     name: "Contact",
     props: {
-        accomodationToContact: Object,
+        accomodation: Object,
     },
     data() {
         return {
@@ -74,8 +74,8 @@ export default {
             user_surname: "",
             email: "",
             message_text: "",
-            accomodation_id: accomodation.id,
-            user_id: accomodation.user_id,
+            accomodation_id: this.accomodation.id,
+            user_id: this.accomodation.user_id,
             sending: false,
             success: false,
         };

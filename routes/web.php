@@ -24,6 +24,7 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::resource('accomodations', 'AccomodationController');
+        Route::get('messages', 'MessageController@index')->name('messages.index');
     });
 
     Route::get('{any?}', function() {

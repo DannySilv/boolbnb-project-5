@@ -2331,7 +2331,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Contact",
   props: {
-    accomodationToContact: Object
+    accomodation: Object
   },
   data: function data() {
     return {
@@ -2339,8 +2339,8 @@ __webpack_require__.r(__webpack_exports__);
       user_surname: "",
       email: "",
       message_text: "",
-      accomodation_id: accomodation.id,
-      user_id: accomodation.user_id,
+      accomodation_id: this.accomodation.id,
+      user_id: this.accomodation.user_id,
       sending: false,
       success: false
     };
@@ -3113,7 +3113,7 @@ var render = function render() {
     }
   })], 1)]), _vm._v(" "), _c("Contact", {
     attrs: {
-      accomodation: _vm.accomodationToContact
+      accomodation: _vm.accomodation
     }
   })], 1);
 };

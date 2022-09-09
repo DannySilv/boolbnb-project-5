@@ -24,7 +24,9 @@
         integrity="sha512-2atqUo2wS2t/OOAfm820ye6NCOVHT3f8FrproTdW/lyOswy0DB7ylSVgvW4ZrjPHgvZTtHDddpYUMWXPB5GQ8g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css" integrity="sha512-3M00D/rn8n+2ZVXBO9Hib0GKNpkm8MSUU/e2VNthDyBYxKWG+BftNYYcuEjXlyrSO637tidzMBXfE7sQm0INUg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css"
+        integrity="sha512-3M00D/rn8n+2ZVXBO9Hib0GKNpkm8MSUU/e2VNthDyBYxKWG+BftNYYcuEjXlyrSO637tidzMBXfE7sQm0INUg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -56,30 +58,36 @@
         </nav>
 
 
-        <nav class="navbar navbar-expand-lg navbar-light" 
+        <nav class="navbar navbar-expand-lg navbar-light"
             style="margin-top:100px;
                     background: rgb(248,249,250);
-                    background: linear-gradient(360deg, rgb(240, 239, 239) 5%, rgba(255,255,255,1) 100%)">              
+                    background: linear-gradient(360deg, rgb(240, 239, 239) 5%, rgba(255,255,255,1) 100%)">
             <div class="" id="navbarNav" style="margin: 0 auto;">
                 <ul class=" flex-nowrap navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="{{ route('admin.home')}}">
-                        <span class="h3 "><i class="fas fa-home"></i></span>
-                        <span class="d-none d-lg-block">DASHBOARD</span> 
-                        <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="{{ route('admin.accomodations.index') }}">
-                        <span class="h3"><i class="far fa-building"></i></span>
-                        <span class="d-none d-lg-block">I MIEI APPARTAMENTI</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-center" href="{{ route('admin.accomodations.create') }}">
-                        <span class="h3"><i class="far fa-plus-square"></i></span>
-                        <span class="d-none d-lg-block">INSERISCI NUOVO</span>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="{{ route('admin.home') }}">
+                            <span class="h3 "><i class="fas fa-home"></i></span>
+                            <span class="d-none d-lg-block">DASHBOARD</span>
+                            <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="{{ route('admin.accomodations.index') }}">
+                            <span class="h3"><i class="far fa-building"></i></span>
+                            <span class="d-none d-lg-block">I MIEI APPARTAMENTI</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="{{ route('admin.accomodations.create') }}">
+                            <span class="h3"><i class="far fa-plus-square"></i></span>
+                            <span class="d-none d-lg-block">INSERISCI NUOVO</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-center" href="{{ route('admin.messages.index') }}">
+                            <span class="h3"><i class="far fa-plus-square"></i></span>
+                            <span class="d-none d-lg-block">MESSAGGI RICEVUTI</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -87,7 +95,7 @@
 
     {{-- /header --}}
 
-    {{-- menu--}}
+    {{-- menu --}}
 
     <div class="container-fluid">
         <div class="row">

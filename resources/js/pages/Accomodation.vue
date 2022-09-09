@@ -28,7 +28,7 @@
                 <Map :accomodation="accomodation" />
             </div>
         </div>
-        <Contact :accomodation="accomodationToContact" />
+        <Contact :accomodation="accomodation" />
     </div>
 </template>
 

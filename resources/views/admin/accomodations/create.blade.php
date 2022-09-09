@@ -34,15 +34,15 @@
             {{-- Input n_rooms --}}
             <div class="form-group">
                 <label for="n_rooms">Numero di stanze *</label>
-                <input name="n_rooms" type="number" class="form-control" id="n_rooms" placeholder="Inserisci numero stanze"
-                    value="{{ old('n_rooms') }}">
+                <input name="n_rooms" type="number" class="form-control" id="n_rooms"
+                    placeholder="Inserisci numero stanze" value="{{ old('n_rooms') }}">
             </div>
 
             {{-- Input n_beds --}}
             <div class="form-group">
                 <label for="n_beds">Numero di letti *</label>
-                <input name="n_beds" type="number" class="form-control" id="n_beds" placeholder="Inserisci numero letti"
-                    value="{{ old('n_beds') }}">
+                <input name="n_beds" type="number" class="form-control" id="n_beds"
+                    placeholder="Inserisci numero letti" value="{{ old('n_beds') }}">
             </div>
 
             {{-- Input n_bathrooms --}}
@@ -79,7 +79,8 @@
                 <input type="text" class="form-control" name="address" id="address" onkeyup="searchAddress()"
                     value="{{ old('address') }}">
                 <div id="suggestions-container" class="mt-2"></div>
-                <input type="text" class="form-control d-none" name="latitude" id="latitude" value="{{ old('latitude') }}">
+                <input type="text" class="form-control d-none" name="latitude" id="latitude"
+                    value="{{ old('latitude') }}">
 
                 <input type="text" class="form-control d-none" name="longitude" id="longitude"
                     value="{{ old('longitude') }}">
