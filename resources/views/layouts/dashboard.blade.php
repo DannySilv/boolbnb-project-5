@@ -84,7 +84,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-center" href="{{ route('admin.messages.index') }}">
-                            <span class="h3"><i class="far fa-plus-square"></i></span>
+                            <span class="h3"><i class="fas fa-envelope"></i></span>
                             <span class="d-none d-lg-block">MESSAGGI RICEVUTI</span>
                         </a>
                     </li>
