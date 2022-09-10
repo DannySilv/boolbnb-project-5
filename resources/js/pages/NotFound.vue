@@ -1,8 +1,8 @@
 <template>
-    <div class="text-center mt-5">
-        <h1>Error 404: Page not found</h1>
+    <div class="text-center text-black mt-5 not_found">
+        <h1>Errore 404: Pagina non trovata!</h1>
         <router-link :to="{ name: 'home' }">
-            Come back to Homepage
+            Ritorna alla schermata iniziale
         </router-link>
     </div>
 </template>
@@ -13,4 +13,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+    .not_found {
+        padding-top: 200px;
+        a {
+            color: #ff385c;
+        }
+    }
+</style>
