@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 import Home from "./pages/Home.vue";
 import Accomodation from "./pages/Accomodation.vue";
 import Accomodations from "./pages/Accomodations.vue";
+import NotFound from "./pages/NotFound.vue";
 
 const router = new VueRouter({
     mode: "history",
@@ -24,6 +25,11 @@ const router = new VueRouter({
             path: "/accomodations/",
             name: "accomodations",
             component: Accomodations,
+        },
+        {
+            path: "/*",
+            name: "not_found",
+            component: NotFound,
         },
     ],
 });

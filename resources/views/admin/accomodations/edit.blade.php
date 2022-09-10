@@ -227,7 +227,7 @@
                         maxlength: 255
                     },
                     image: {
-                        required: true,
+                        required: false,
                     },
                 },
                 messages: {

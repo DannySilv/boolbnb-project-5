@@ -5,8 +5,7 @@
 }
 
 .active:hover {
-  color: #3490dc;
-  transform: scale(1.05);
+  color: #FF385C;
 }
 
 #app {
@@ -80,7 +79,7 @@ nav img {
 
 main {
   height: 100vh;
-  margin-top: 60px !important;
+  margin-top: 40px !important;
 }
 
 main a {
@@ -103,32 +102,176 @@ main ul {
   margin-top: 60px;
 }
 
-input[type=text],
-textarea[type=text],
-input[type=number] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: 3px solid transparent;
-  transition: 0.5s;
-  outline: none;
-}
-
-input[type=text]:focus {
-  border: 3px solid rgba(255, 90, 94, 0.7019607843);
-}
-
-textarea[type=text]:focus {
-  border: 3px solid rgba(255, 90, 94, 0.7019607843);
-}
-
-input[type=number]:focus {
-  border: 3px solid rgba(255, 90, 94, 0.7019607843);
-}
-
 input[type=checkbox] {
   accent-color: rgba(255, 90, 94, 0.7019607843);
+}
+
+/*Dashboard*/
+
+.my_header {
+  height: 100px !important;
+}
+
+.my_header img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.my_dashboard {
+  width: 100%;
+  background: rgb(248, 249, 250);
+  background: linear-gradient(360deg, rgb(240, 239, 239) 5%, rgb(255, 255, 255) 100%);
+  margin-top: 100px;
+}
+
+.my_dashboard div {
+  margin: 0 auto;
+}
+
+.navbar_mobile {
+  margin-top: 100px;
+  background: rgb(248, 249, 250);
+  background: linear-gradient(360deg, rgb(240, 239, 239) 5%, rgb(255, 255, 255) 100%);
+}
+
+.my_scroll::-webkit-scrollbar {
+  background-color: #f0efef;
+  width: 0.7rem;
+}
+
+.my_scroll::-webkit-scrollbar-thumb {
+  background-color: #979696;
+  border-radius: 100vw;
+}
+
+.my_scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #ff385c;
+}
+
+/* /Dashboard*/
+
+/*index*/
+
+.my_card {
+  width: 17rem;
+  height: 430px;
+  border-radius: 10px;
+}
+
+.my_card .index-btn {
+  background-color: #ff385c;
+}
+
+/*index*/
+
+.edit_btn {
+  background-color: white !important;
+  color: green !important;
+}
+
+.edit_btn:hover,
+.edit_btn:hover i {
+  background-color: green !important;
+  color: white !important;
+}
+
+.delete_btn {
+  background-color: white !important;
+  color: #FF385C !important;
+}
+
+.delete_btn:hover,
+.delete_btn:hover i {
+  background-color: #ff385c !important;
+  color: white !important;
+}
+
+.btn_hov:hover p {
+  display: block !important;
+}
+
+.arrow_container {
+  position: relative;
+}
+
+.arrow_container .avanti {
+  position: absolute;
+  right: 0;
+  top: -300px;
+}
+
+.arrow_container .indietro {
+  position: absolute;
+  left: 0;
+  top: -300px;
+}
+
+.mycard {
+  width: 17rem;
+  height: 350px;
+  transition-duration: 0.3s;
+}
+
+.card_body {
+  width: 16rem;
+  margin: 0 auto;
+}
+
+.card_body .card-title {
+  font-weight: 700;
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 1rem;
+}
+
+.description {
+  align-items: center;
+}
+
+.details {
+  width: 100%;
+  margin: 7.5px auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.details .animated {
+  -webkit-animation-duration: 2.5s;
+          animation-duration: 2.5s;
+}
+
+.details span {
+  font-size: 11px;
+  margin-left: 5px;
+}
+
+.details span i {
+  color: #c4c6c5;
+}
+
+.btn-primary {
+  background-color: #ff385c;
+  border: 1px solid #ff385c;
+}
+
+.btn-primary:hover {
+  background-color: #ff385c;
+  border: 1px solid #ff385c;
+}
+
+.n-rooms {
+  transition-duration: 1s;
+}
+
+.my-top-img {
+  overflow: hidden;
+}
+
+.footer-container {
+  padding-top: 500px;
 }
 
 /*!

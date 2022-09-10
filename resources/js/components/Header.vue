@@ -50,7 +50,6 @@ header {
     }
     .pippo:hover {
         text-decoration: underline;
-        // text-transform: uppercase;
         color: white;
     }
 }
@@ -66,8 +65,8 @@ header {
 }
 .ms-login {
     color: white;
-    border-color: #ec2b00;
-    background-color: #ec2b00;
+    border-color: black;
+    background-color: black;
 }
 .ms-register {
     color: black;

@@ -30,12 +30,12 @@
 
 </head>
 
-<body style="background-color: rgb(240, 239, 239)">
+<body class="my_scroll" style="background-color: rgb(240, 239, 239)">
     {{-- header --}}
     <div>
-        <nav class="navbar navbar-expand-md flex-md-nowrap" style="height:100px !important;">
+        <nav class="my_header navbar navbar-expand-md navbar-light flex-md-nowrap" style="padding: 0;">
             <a class="px-4" href="{{ route('admin.home') }}">
-                <img src="../../storage/image/logo.png" style="object-fit:contain" alt="" srcset="">
+                <img src="../../storage/image/logo.png" alt="" srcset="">
             </a>
 
             <ul class="navbar-nav px-3 ml-auto">
@@ -55,42 +55,64 @@
                     </form>
                 </li>
             </ul>
+
+            <nav class="my_dashboard navbar navbar-expand-lg navbar-light">
+                <div class="" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-center" href="{{ route('admin.home') }}">
+                                <span class="h3 d-none d-lg-block"><i class="fas fa-home"></i></span>
+                                <span class="d-none d-lg-block">DASHBOARD</span>
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-center" href="{{ route('admin.accomodations.index') }}">
+                                <span class="h3 d-none d-lg-block"><i class="far fa-building"></i></span>
+                                <span class="d-none d-lg-block">I MIEI APPARTAMENTI</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-center" href="{{ route('admin.accomodations.create') }}">
+                                <span class="h3 d-none d-lg-block"><i class="far fa-plus-square"></i></span>
+                                <span class="d-none d-lg-block">INSERISCI NUOVO</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-center" href="{{ route('admin.messages.index') }}">
+                                <span class="h3 d-none d-lg-block"><i class="fas fa-envelope"></i></span>
+                                <span class="d-none d-lg-block">MESSAGGI RICEVUTI</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            {{-- navbar mobile --}}
+            <nav
+                class="navbar_mobile navbar navbar-expand-lg navbar-light d-lg-none d-block d-flex justify-content-center">
+                <a href="{{ route('admin.home') }}"
+                    class="nav-link text-secondary text-center h3 mx-md-5 mx-sm-3 mx-xs-2">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="{{ route('admin.accomodations.index') }}"
+                    class="nav-link text-secondary text-center h3 mx-md-5 mx-sm-3 mx-xs-2">
+                    <i class="far fa-building"></i>
+                </a>
+                <a href="{{ route('admin.accomodations.create') }}"
+                    class="nav-link text-secondary text-center h3 mx-md-5 mx-sm-3 mx-xs-2">
+                    <i class="far fa-plus-square"></i>
+                </a>
+                <a href="{{ route('admin.messages.index') }}"
+                    class="nav-link text-secondary text-center h3 mx-md-5 mx-sm-3 mx-xs-2">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </nav>
+            {{-- /navbar mobile --}}
         </nav>
 
 
-        <nav class="navbar navbar-expand-lg navbar-light"
-            style="margin-top:100px;
-                    background: rgb(248,249,250);
-                    background: linear-gradient(360deg, rgb(240, 239, 239) 5%, rgba(255,255,255,1) 100%)">
-            <div class="" id="navbarNav" style="margin: 0 auto;">
-                <ul class=" flex-nowrap navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-center" href="{{ route('admin.home') }}">
-                            <span class="h3 "><i class="fas fa-home"></i></span>
-                            <span class="d-none d-lg-block">DASHBOARD</span>
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-center" href="{{ route('admin.accomodations.index') }}">
-                            <span class="h3"><i class="far fa-building"></i></span>
-                            <span class="d-none d-lg-block">I MIEI APPARTAMENTI</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-center" href="{{ route('admin.accomodations.create') }}">
-                            <span class="h3"><i class="far fa-plus-square"></i></span>
-                            <span class="d-none d-lg-block">INSERISCI NUOVO</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-center" href="{{ route('admin.messages.index') }}">
-                            <span class="h3"><i class="fas fa-envelope"></i></span>
-                            <span class="d-none d-lg-block">MESSAGGI RICEVUTI</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+
     </div>
 
     {{-- /header --}}
@@ -99,26 +121,117 @@
 
     <div class="container-fluid">
         <div class="row">
-            {{-- <nav class="navbar navbar-expand-lg navbar-light bg-light my-5">              
-                <div class="" id="navbarNav" style="margin: 0 auto">
-                    <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.home')}}">DASHBOARD <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.accomodations.index') }}">I MIEI APPARTAMENTI</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.accomodations.create') }}">INSERISCI UN NUOVO APPARTAMENTO</a>
-                    </li>
-                    </ul>
-                </div>
-            </nav> --}}
-
-
-            <main role="main" class="col-md-12 col-sm-12 col-lg-12" style="padding-top:130px;">
+            <main role="main" class="col-md-12 col-sm-12 col-lg-12" style="padding-top:130px; height:100%">
                 @yield('content')
             </main>
+
+            <footer class="text-center text-lg-start bg-white text-muted w-100">
+
+                <!-- Section: Links  -->
+                <section class="">
+                    <div class="container text-center text-md-start mt-5">
+                        <!-- Grid row -->
+                        <div class="content row mt-3">
+                            <!-- Grid column -->
+                            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                                <!-- Content -->
+                                {{-- <h5 class="text-uppercase fw-bold mb-4">
+                        <i class="fas fa-gem me-3 text-secondary"></i>BoolBnB
+                        </h5> --}}
+                                <p>
+                                    Le nostre proposte sono esperienze da portare nell'anima. Ogni soluzione è il
+                                    perfetto equilibrio tra scoperta, stupore e relax.
+                                </p>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                                <!-- Links -->
+                                <h6 class="text-uppercase fw-bold mb-4">
+                                    Products
+                                </h6>
+                                <p>
+                                    <a href="#!" class="text-reset">Alloggi</a>
+                                </p>
+                                <p>
+                                    <a href="#!" class="text-reset">Esperienze</a>
+                                </p>
+                                <p>
+                                    <a href="#!" class="text-reset">Visite</a>
+                                </p>
+                                <p>
+                                    <a href="#!" class="text-reset">Residenze</a>
+                                </p>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                                <!-- Links -->
+                                <h6 class="text-uppercase fw-bold mb-4">
+                                    Useful links
+                                </h6>
+                                <p>
+                                    <a href="#!" class="text-reset">Pricing</a>
+                                </p>
+                                <p>
+                                    <a href="#!" class="text-reset">Settings</a>
+                                </p>
+                                <p>
+                                    <a href="#!" class="text-reset">Orders</a>
+                                </p>
+                                <p>
+                                    <a href="#!" class="text-reset">Help</a>
+                                </p>
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                                <!-- Links -->
+                                <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                                <p><i class="fas fa-home me-3 text-secondary"></i> New York, NY 10012, US</p>
+                                <p>
+                                    <i class="fas fa-envelope me-3 text-secondary"></i>
+                                    info@example.com
+                                </p>
+                                <p><i class="fas fa-phone me-3 text-secondary"></i> + 01 234 567 88</p>
+                                <p><i class="fas fa-print me-3 text-secondary"></i> + 01 234 567 89</p>
+                            </div>
+                            <!-- Grid column -->
+                        </div>
+                        <!-- Grid row -->
+                    </div>
+                </section>
+                <!-- Section: Links  -->
+
+                <!-- Copyright -->
+                <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+                    © 2021 Copyright:
+                    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+                    <div>
+                        <a href="" class="me-4 link-secondary">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="" class="me-4 link-secondary">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="" class="me-4 link-secondary">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="" class="me-4 link-secondary">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="" class="me-4 link-secondary">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="" class="me-4 link-secondary">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 </body>

@@ -3,8 +3,7 @@
 }
 
 .active:hover {
-    color: $blue;
-    transform: scale(1.05);
+    color: $logo;
 }
 
 #app {
@@ -18,7 +17,7 @@ ul {
 
 .accomodation-card:hover {
     width: 500px;
-    color:red;
+    color: red;
 }
 
 nav {
@@ -76,13 +75,13 @@ nav {
 
 main {
     height: 100vh;
-    margin-top: 60px !important;
+    margin-top: 40px !important;
 
     a {
         color: $logo;
 
         &:hover {
-            color:#8d3232;
+            color: #8d3232;
         }
     }
 }
@@ -99,26 +98,6 @@ main ul {
     margin-top: 60px;
 }
 
-input[type=text], textarea[type=text], input[type=number] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 3px solid transparent;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    outline: none;
-  }
-  
-  input[type=text]:focus {
-    border: 3px solid #ff5a5eb3;
-  }
-  textarea[type=text]:focus {
-    border: 3px solid #ff5a5eb3;
-  }
-  input[type=number]:focus {
-    border: 3px solid #ff5a5eb3;
-  }
-  input[type=checkbox] {
+input[type="checkbox"] {
     accent-color: #ff5a5eb3;
-  }
+}

@@ -69,8 +69,8 @@ class DistanceController extends Controller
             $newAccomodations = [];
             // No Filter
             if (
-                $selectedBeds == null &&
-                $selectedRooms == null &&
+                $selectedBeds == 'Nessuna selezione' &&
+                $selectedRooms == 'Nessuna selezione' &&
                 count($selectedFacilities) == 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
@@ -80,8 +80,8 @@ class DistanceController extends Controller
             }
             // Beds
             else if (
-                $selectedBeds != null &&
-                $selectedRooms == null &&
+                $selectedBeds != 'Nessuna selezione' &&
+                $selectedRooms == 'Nessuna selezione' &&
                 count($selectedFacilities) == 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
@@ -95,8 +95,8 @@ class DistanceController extends Controller
             }
             // Rooms
             else if (
-                $selectedBeds == null &&
-                $selectedRooms != null &&
+                $selectedBeds == 'Nessuna selezione' &&
+                $selectedRooms != 'Nessuna selezione' &&
                 count($selectedFacilities) == 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
@@ -110,8 +110,8 @@ class DistanceController extends Controller
             }
             // Facilities
             else if (
-                $selectedBeds == null &&
-                $selectedRooms == null &&
+                $selectedBeds == 'Nessuna selezione' &&
+                $selectedRooms == 'Nessuna selezione' &&
                 count($selectedFacilities) != 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
@@ -137,8 +137,8 @@ class DistanceController extends Controller
             }
             // Beds + Rooms
             else if (
-                $selectedBeds != null &&
-                $selectedRooms != null &&
+                $selectedBeds != 'Nessuna selezione' &&
+                $selectedRooms != 'Nessuna selezione' &&
                 count($selectedFacilities) == 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
@@ -153,8 +153,8 @@ class DistanceController extends Controller
             }
             // Beds + Rooms + Facilities
             else if (
-                $selectedBeds != null &&
-                $selectedRooms != null &&
+                $selectedBeds != 'Nessuna selezione' &&
+                $selectedRooms != 'Nessuna selezione' &&
                 count($selectedFacilities) != 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
@@ -182,8 +182,8 @@ class DistanceController extends Controller
             }
             // Beds + Facilities
             else if (
-                $selectedBeds != null &&
-                $selectedRooms == null &&
+                $selectedBeds != 'Nessuna selezione' &&
+                $selectedRooms == 'Nessuna selezione' &&
                 count($selectedFacilities) != 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
@@ -210,8 +210,8 @@ class DistanceController extends Controller
             }
             // Rooms + Facilities
             else if (
-                $selectedBeds == null &&
-                $selectedRooms != null &&
+                $selectedBeds == 'Nessuna selezione' &&
+                $selectedRooms != 'Nessuna selezione' &&
                 count($selectedFacilities) != 0
             ) {
                 foreach ($filteredAccomodations as $filteredAccomodation) {
