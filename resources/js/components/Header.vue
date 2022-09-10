@@ -46,7 +46,7 @@ header {
     z-index: 1;
     .pippo {
         padding: 0 2rem;
-        line-height: 60px;
+        line-height: 80px;
     }
     .pippo:hover {
         text-decoration: underline;
@@ -66,8 +66,8 @@ header {
 }
 .ms-login {
     color: white;
-    border-color: black;
-    background-color: black;
+    border-color: #ec2b00;
+    background-color: #ec2b00;
 }
 .ms-register {
     color: black;

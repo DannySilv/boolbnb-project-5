@@ -19,9 +19,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::namespace('Api')
-    ->group(function () {
-        Route::get('/accomodations', 'AccomodationController@index');
-        Route::get('/accomodations/{slug}', 'AccomodationController@show');
-        Route::post('/distance', 'DistanceController@distance');
-        Route::post('/messages', 'MessageController@store');
-    });
+  ->group(function () {
+    Route::get('/accomodations', 'AccomodationController@index');
+    Route::get('/accomodations/{slug}', 'AccomodationController@show');
+    Route::post('/distance', 'DistanceController@distance');
+    Route::post('/coordinates', 'DistanceController@coordinates');
+    Route::post('/filteredDistance', 'DistanceController@filteredDistance');
+    Route::post('/messages', 'MessageController@store');
+  });

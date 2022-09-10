@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Accomodation;
+use App\AccomodationSponsored;
 use App\Facility;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class AccomodationController extends Controller
 
         return response()->json([
             'success' => true,
-            'appResults' => $accomodations, 
+            'appResults' => $accomodations,
             'facResults' => $facilities
         ]);
     }
@@ -41,6 +42,24 @@ class AccomodationController extends Controller
         return response()->json([
             'success' => false,
             'error' => 'No Accomodation Found'
+        ]);
+    }
+
+    public function sponsoredAccomodations()
+    {
+        $sponsoredAccomodations = AccomodationSponsored::all();
+        $current_date = date("Y-m-d H:i:s");
+        $accomodations = [];
+
+        foreach ($sponsoredAccomodations as $item) {
+            if ($item->end_promotion >= $current_date) {
+                $accomodations[] = Accomodation::where('id', $item->accomodation_id)->where('visible', 1)->first();
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'results' => $accomodations
         ]);
     }
 }
