@@ -274,6 +274,12 @@ input[type=checkbox] {
   padding-top: 500px;
 }
 
+.my_footer i {
+  color: #ff385c;
+  padding-top: 1rem;
+  margin: 0 0.5rem;
+}
+
 /*!
  * Bootstrap v4.6.2 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors

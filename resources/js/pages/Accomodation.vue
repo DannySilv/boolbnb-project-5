@@ -1,5 +1,5 @@
 <template>
-    <div class="ms-container d-flex justify-content-center">
+    <div class="ms-container2 d-flex justify-content-center">
         <div class="card cardolina" style="width: 650px">
             <div v-if="accomodation.image">
                 <img

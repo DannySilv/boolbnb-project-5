@@ -7,7 +7,11 @@
                     aria-current="page"
                     :to="{ name: 'home' }"
                 >
-                    <h4 class="pippo">Bool BnB</h4>
+                    <img
+                        src="../../../public/storage/image/logo.png"
+                        alt=""
+                        srcset=""
+                    />
                 </router-link>
             </li>
             <!-- <li>
@@ -20,7 +24,7 @@
                 </router-link>
             </li> -->
             <li class="ms-auto">
-                <a class="btn ms-login" aria-current="page" href="/login"
+                <a class="btn ms-login mr-2" aria-current="page" href="/login"
                     >Login
                     <i class="fas fa-user"></i>
                 </a>
@@ -40,17 +44,18 @@ export default {
 <style lang="scss" scoped>
 header {
     width: 100%;
-    height: 60px;
-    background-color: #de2547;
+    height: 75px;
+    background: rgba(248, 249, 250, 0.7);
+    // background: linear-gradient(
+    //     0deg,
+    //     rgba(255, 255, 255, 1) 35%,
+    //     rgb(201, 201, 201, 0.5) 100%
+    // );
     position: fixed;
     z-index: 1;
-    .pippo {
+    img {
         padding: 0 2rem;
-        line-height: 80px;
-    }
-    .pippo:hover {
-        text-decoration: underline;
-        color: white;
+        height: 80px;
     }
 }
 .ms-links {
@@ -69,8 +74,8 @@ header {
     background-color: black;
 }
 .ms-register {
-    color: black;
-    border-color: white;
-    background-color: white;
+    color: white;
+    border-color: #ff385c;
+    background-color: #ff385c;
 }
 </style>
