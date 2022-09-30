@@ -43,6 +43,10 @@ class Accomodation extends Model
         return $this->hasMany('App\Message');
     }
 
+    public function sponsor_plans() {
+        return $this->belongsToMany('App\SponsorPlan')->withPivot(['creating_date','expiring_date']);
+    }
+
     public static function generateAccomodationSlug($name)
     {
         $base_slug = Str::slug($name, '-');

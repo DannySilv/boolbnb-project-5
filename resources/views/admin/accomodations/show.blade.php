@@ -2,14 +2,34 @@
 
 @section('content')
     @if ($current_accomodation->user_id == $user_id)
-        <div class="container" style="height: 500px">
-            <div class="row">
+        @if (session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+        <div class="container">
+            <div class="row align-items-center">
                 {{-- Colonna immagine --}}
                 <div class="col-lg-8 col-xs-12">
                     @if ($current_accomodation->image)
                         <img class="acc_image w-100 rounded" style="max-height: 450px; object-fit:cover;"
                             src="{{ asset('storage/' . $current_accomodation->image) }}"
                             alt="{{ $current_accomodation->name }}">
+                        @if (isset($current_accomodation->sponsor_plans[0]->pivot->expiring_date) && $current_accomodation->sponsor_plans[0]->pivot->expiring_date > date("Y-m-d H:i:s"))  
+                            @if ($current_accomodation->sponsor_plans[0]->pivot->sponsor_plan_id == 1)
+                            <button class="btn btn-success ms-position" disabled>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            @elseif ($current_accomodation->sponsor_plans[0]->pivot->sponsor_plan_id == 2)
+                            <button class="btn btn-secondary ms-position" disabled>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            @elseif ($current_accomodation->sponsor_plans[0]->pivot->sponsor_plan_id == 3)
+                            <button class="btn btn-warning ms-position" disabled>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            @endif
+                        @endif
                     @endif
                 </div>
                 {{-- /Colonna immagine --}}
@@ -38,6 +58,7 @@
                                 <li> --}}
                             <small class="my-3">
                                 @forelse ($current_accomodation->facilities as $facility)
+                                
                                     {{-- Stampiamo una virgola solo se non è l'ultimo elemento nel loop --}}
                                     {{ $facility->name }}{{ $loop->last ? '' : ', ' }}
                                     <br>
@@ -53,11 +74,11 @@
                     {{-- /Colonna informazioni --}}
 
                     {{-- delete-destroy button --}}
-                    <div class="d-flex mt-3" style="max-width: 350px; min-width: 120px">
+                    <div class="d-flex justify-content-between mt-3">
                         <div class="btn_hov">
-                            <a class="edit_btn btn mr-3"
+                            <a class="edit_btn btn"
                                 href="{{ route('admin.accomodations.edit', ['accomodation' => $current_accomodation->id]) }}">
-                                Modifica appartamento
+                                Modifica
                             </a>
                         </div>
 
@@ -66,13 +87,30 @@
                             method="post">
                             @csrf
                             @method('delete')
-                            <button type="submit" class="delete_btn btn" onclick="return confirm('Sei sicuro fratello?')">
-                                Elimina appartamento
+                            <button type="submit" class="delete_btn btn" onclick="return confirm('Sei sicuro?')">
+                                Elimina
                             </button>
                             <p class="d-none"></p>
                         </form>
+                        <div class="btn_hov">
+                            <a class="btn sponsor_btn"
+                                href="{{ route('admin.sponsors', $current_accomodation->id) }}">
+                                Sponsorizza
+                            </a>
+                        </div>
                     </div>
                     {{-- / delete-destroy button --}}
+                    <div class="mt-3">
+                        @if ($current_accomodation->sponsor_plans[0]->pivot->expiring_date > date("Y-m-d H:i:s"))
+                            <h6>Il periodo di sponsorizzazione termina tra:</h6>
+                            <div class="d-flex align-items-center">
+                                <div id="days" class="d-flex align-items-center"></div>
+                                <div id="hours" class="d-flex align-items-center"></div>
+                                <div id="minutes" class="d-flex align-items-center"></div>
+                                <div id="seconds" class="d-flex align-items-center"></div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,4 +139,37 @@
     @else
         <p class="text-center">Non puoi accedere a questo appartamento</p>
     @endif
+    <script>
+        let loading = true;
+        let timer = function (date) {
+            this.loading = false;
+            let timer = Math.round(new Date(date).getTime()/1000) - Math.round(new Date().getTime()/1000);
+            let minutes;
+            let seconds;
+            setInterval(function () {
+                if (--timer < 0) {
+                    timer = 0;
+                }
+                days = parseInt(timer / 60 / 60 / 24, 10);
+                hours = parseInt((timer / 60 / 60) % 24, 10);
+                minutes = parseInt((timer / 60) % 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                days = days < 10 ? "<h4>0" + days + "</h4>" + "<span>D</span>" : "<h4>" + days + "</h4>" + "<span>D</span>";
+                hours = hours < 10 ? "<h4>0" + hours + "</h4>" + "<span>H</span>" : "<h4>" + hours + "</h4>" + "<span>H</span>";
+                minutes = minutes < 10 ? "<h4>0" + minutes + "</h4>" + "<span>M</span>" : "<h4>" + minutes + "</h4>" + "<span>M</span>";
+                seconds = seconds < 10 ? "<h4>0" + seconds + "</h4>" + "<span>S</span>" : "<h4>" + seconds + "</h4>" + "<span>S</span>";
+
+                document.getElementById('days').innerHTML = days;
+                document.getElementById('hours').innerHTML = hours;
+                document.getElementById('minutes').innerHTML = minutes;
+                document.getElementById('seconds').innerHTML = seconds;
+            }, 1000);
+        }
+    
+        //using the function
+        const endSponsor = new Date("{{ $current_accomodation->sponsor_plans[0]->pivot->expiring_date }}");
+        console.log(endSponsor);
+        timer(endSponsor);
+    </script>
 @endsection

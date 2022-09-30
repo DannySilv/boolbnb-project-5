@@ -1,137 +1,58 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset"UTF-8";
-
-.active {
-  cursor: pointer;
-}
-
-.active:hover {
-  color: #FF385C;
-}
-
-#app {
-  height: 100%;
-}
-
-ul {
-  list-style: none;
-  margin: 0 !important;
-}
-
-.accomodation-card:hover {
-  width: 500px;
-  color: red;
-}
-
-nav {
-  width: 100%;
-  height: 60px !important;
-  background-color: white;
-  position: fixed !important;
-  z-index: 1;
-}
-
-nav img {
-  width: 10%;
-  min-width: 100px;
-}
-
-.pippo {
-  padding: 0 2rem;
-  line-height: 60px;
-  font-size: 1.4rem;
-  color: white;
-}
-
-.pippo:hover {
-  text-decoration: underline;
-  color: white;
-}
-
-.ms-links {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-}
-
-.btn {
-  padding: 0.1rem 1rem;
-  font-weight: 600;
-}
-
-.ms-login {
-  color: white;
-  border-color: #222222;
-  background-color: #222222;
-}
-
-.ms-register {
-  color: black;
-  border-color: white;
-  background-color: white;
-}
-
-.ms-logout {
-  color: white;
-  border-color: #222222;
-  background-color: #222222;
-}
-
-main {
-  height: 100vh;
-  margin-top: 40px !important;
-}
-
-main a {
-  color: #FF385C;
-}
-
-main a:hover {
-  color: #8d3232;
-}
-
-main ul {
-  list-style: none;
-}
-
-.ms-text {
-  color: white;
-}
-
-.ms-dash {
-  margin-top: 60px;
-}
-
-input[type=checkbox] {
-  accent-color: rgba(255, 90, 94, 0.7019607843);
-}
+@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
 /*Dashboard*/
 
 .my_header {
-  height: 100px !important;
+  width: 100%;
+  height: 70px !important;
+  background: white;
+  z-index: 1;
 }
 
-.my_header img {
+.my_header .logo-container {
+  width: 15%;
+}
+
+.my_header .logo-container img {
   -o-object-fit: contain;
      object-fit: contain;
+  max-height: 70px;
+}
+
+.ms-logout {
+  color: white !important;
+  border-color: black !important;
+  background-color: black !important;
+}
+
+.btn {
+  padding: 0.1rem 1rem !important;
+  font-weight: 600 !important;
 }
 
 .my_dashboard {
-  width: 100%;
-  background: rgb(248, 249, 250);
-  background: linear-gradient(360deg, rgb(240, 239, 239) 5%, rgb(255, 255, 255) 100%);
-  margin-top: 100px;
+  width: 55%;
+  background: white !important;
 }
 
-.my_dashboard div {
-  margin: 0 auto;
+.my_dashboard .nav-item {
+  width: 25%;
 }
 
-.navbar_mobile {
-  margin-top: 100px;
-  background: rgb(248, 249, 250);
-  background: linear-gradient(360deg, rgb(240, 239, 239) 5%, rgb(255, 255, 255) 100%);
+.my_dashboard .nav-item a {
+  color: #979696;
+  font-weight: 500;
+}
+
+.my_dashboard .dropdown {
+  width: 15%;
+  height: 40px;
+  border: 2px solid gray;
+  border-radius: 10px;
+}
+
+.my_dashboard .dropdown i {
+  color: gray;
 }
 
 .my_scroll::-webkit-scrollbar {
@@ -186,8 +107,30 @@ input[type=checkbox] {
   color: white !important;
 }
 
+.sponsor_btn {
+  background-color: white !important;
+  color: goldenrod !important;
+}
+
+.sponsor_btn:hover,
+.sponsor_btn:hover i {
+  background-color: goldenrod !important;
+  color: white !important;
+}
+
+.btn_hov {
+  width: calc(33.3333333333% - 15px);
+  text-align: center;
+}
+
 .btn_hov:hover p {
   display: block !important;
+}
+
+.ms-position-index {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .arrow_container {
@@ -266,18 +209,122 @@ input[type=checkbox] {
   transition-duration: 1s;
 }
 
+.ms-position {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+}
+
 .my-top-img {
   overflow: hidden;
 }
 
-.footer-container {
-  padding-top: 500px;
+footer {
+  height: 80px;
 }
 
-.my_footer i {
+footer .my-footer {
+  width: 100%;
+}
+
+.my_social i {
   color: #ff385c;
   padding-top: 1rem;
   margin: 0 0.5rem;
+}
+
+.active {
+  cursor: pointer;
+}
+
+.active:hover {
+  color: #FF385C;
+}
+
+img {
+  width: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+h5 {
+  margin: 0 auto;
+}
+
+ul {
+  list-style: none;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.accomodation-card:hover {
+  width: 500px;
+  color: red;
+}
+
+.pippo {
+  padding: 0 2rem;
+  line-height: 60px;
+  font-size: 1.4rem;
+  color: white;
+}
+
+.pippo:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+.ms-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+}
+
+.ms-login {
+  color: white;
+  border-color: #222222;
+  background-color: #222222;
+}
+
+.ms-register {
+  color: black;
+  border-color: white;
+  background-color: white;
+}
+
+main {
+  margin-top: 70px !important;
+}
+
+main a {
+  color: #FF385C;
+}
+
+main a:hover {
+  color: #8d3232;
+}
+
+.ms-mt-full {
+  min-height: calc(100vh - 80px);
+}
+
+main ul {
+  list-style: none;
+}
+
+.ms-text {
+  color: white;
+}
+
+.ms-dash {
+  margin-top: 60px;
+}
+
+input[type=checkbox] {
+  accent-color: rgba(255, 90, 94, 0.7019607843);
 }
 
 /*!

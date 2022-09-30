@@ -12,4 +12,9 @@ class SponsorPlan extends Model
         'price',
         'number_of_hours'
     ];
+
+    public function accomodation()
+    {
+        return $this->belongsToMany('App\Accomodation');
+    }
 }

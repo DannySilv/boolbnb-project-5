@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SponsorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,10 @@ Route::middleware('auth')
         Route::get('/', 'HomeController@index')->name('home');
         Route::resource('accomodations', 'AccomodationController');
         Route::get('messages', 'MessageController@index')->name('messages.index');
+        Route::get('accomodations/sponsors/{accomodation}', 'SponsorController@index')->name('sponsors');
+        Route::get('accomodations/sponsors/{accomodation}/{sponsor}/payment', 'SponsorController@payment')->name('sponsors.payment');
+        Route::post('accomodations/sponsors/{accomodation}/{sponsor}/checkout', 'SponsorController@checkout')->name('sponsors.checkout');
+        Route::get('accomodations/sponsored', 'SponsorController@sponsored')->name('sponsors.sponsored');
     });
 
 Route::get('{any?}', function () {
@@ -34,3 +39,7 @@ Route::get('{any?}', function () {
 // Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

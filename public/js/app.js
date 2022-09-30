@@ -115,8 +115,8 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Boolean\project-team-five\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Boolean\project-team-five\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\BOOLEAN\project-team-five-1\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\BOOLEAN\project-team-five-1\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

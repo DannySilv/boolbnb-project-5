@@ -10,6 +10,21 @@
                     @if ($accomodation->image)
                         <img class="card-img-top h-50" src="{{ asset('storage/' . $accomodation->image) }}"
                             alt="Card image cap" style="overflow:hidden;">
+                        @if (isset($accomodation->sponsor_plans[0]->pivot->expiring_date) && $accomodation->sponsor_plans[0]->pivot->expiring_date > date("Y-m-d H:i:s"))  
+                            @if ($accomodation->sponsor_plans[0]->pivot->sponsor_plan_id == 1)
+                            <button class="btn btn-success ms-position-index" disabled>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            @elseif ($accomodation->sponsor_plans[0]->pivot->sponsor_plan_id == 2)
+                            <button class="btn btn-secondary ms-position-index" disabled>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            @elseif ($accomodation->sponsor_plans[0]->pivot->sponsor_plan_id == 3)
+                            <button class="btn btn-warning ms-position-index" disabled>
+                                <i class="fas fa-star"></i>
+                            </button>
+                            @endif
+                        @endif
                     @endif
                     <div class="card_body">
                         <h5 class="card-title text-center py-3">{{ $accomodation->name }}</h5>

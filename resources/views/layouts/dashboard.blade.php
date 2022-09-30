@@ -32,65 +32,57 @@
 
 <body class="my_scroll" style="background-color: rgb(240, 239, 239)">
     {{-- header --}}
-    <div>
-        <nav class="my_header navbar navbar-expand-md navbar-light flex-md-nowrap" style="padding: 0;">
-            <a class="px-4" href="{{ route('admin.home') }}">
-                <img src="../../storage/image/logo.png" alt="" srcset="">
-            </a>
-
-            <ul class="navbar-nav px-3 ml-auto">
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
-                        Visita il sito
-                    </a>
-                </li> --}}
-                <li class="nav-item">
-                    <a class="nav-link text-dark font-weight-bold" style="" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                        Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-
-            <nav class="my_dashboard navbar navbar-expand-lg navbar-light">
-                <div class="" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-center" href="{{ route('admin.home') }}">
-                                <span class="h3 d-none d-lg-block"><i class="fas fa-home"></i></span>
-                                <span class="d-none d-lg-block">DASHBOARD</span>
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center" href="{{ route('admin.accomodations.index') }}">
-                                <span class="h3 d-none d-lg-block"><i class="far fa-building"></i></span>
-                                <span class="d-none d-lg-block">I MIEI APPARTAMENTI</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center" href="{{ route('admin.accomodations.create') }}">
-                                <span class="h3 d-none d-lg-block"><i class="far fa-plus-square"></i></span>
-                                <span class="d-none d-lg-block">INSERISCI NUOVO</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center" href="{{ route('admin.messages.index') }}">
-                                <span class="h3 d-none d-lg-block"><i class="fas fa-envelope"></i></span>
-                                <span class="d-none d-lg-block">MESSAGGI RICEVUTI</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            {{-- navbar mobile --}}
-            <nav
-                class="navbar_mobile navbar navbar-expand-lg navbar-light d-lg-none d-block d-flex justify-content-center">
+    <header class="my_header d-flex justify-content-between position-fixed">
+        <a class="logo-container" href="{{ route('admin.home') }}">
+            <img src="../../storage/image/logo.png" alt="" srcset="">
+        </a>
+        {{-- Navbar desktop --}}
+        <ul class="my_dashboard d-none d-md-flex d-lg-flex d-xl-flex justify-content-center align-items-center">
+            <li class="nav-item">
+                <a class="nav-link text-center" href="{{ route('admin.home') }}">
+                    <i class="fas fa-home"></i>
+                    <h6>Dashboard</h6>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-center" href="{{ route('admin.accomodations.index') }}">
+                    <i class="far fa-building"></i>
+                    <h6>Appartamenti</h6>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-center" href="{{ route('admin.accomodations.create') }}">
+                    <i class="far fa-plus-square"></i>
+                    <h6>Nuovo</h6>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-center" href="{{ route('admin.messages.index') }}">
+                    <i class="fas fa-envelope"></i>
+                    <h6>Messaggi</h6>
+                </a>
+            </li>
+            {{-- <li class="nav-item">
+                <a class="nav-link text-center" href="{{ route('admin.sponsors.sponsored') }}">
+                    <span class="h3 d-none d-lg-block"><i class="fas fa-funnel-dollar"></i></span>
+                    <span class="d-none d-lg-block">SPONSORIZZATI</span>
+                </a>
+            </li> --}}
+        </ul>
+        {{-- /Navbar Desktop --}}
+        {{-- navbar mobile --}}
+        <nav class="my_dashboard d-md-none d-lg-none d-xl-none d-flex justify-content-center align-items-center">
+            <button
+                class="dropdown"
+                id="navDropdown"
+                data-toggle="collapse"
+                data-target="#collapseFilter"
+                aria-expanded="false"
+                aria-controls="collapseFilter"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse mt-3" id="collapseFilter" aria-labelledby="navDropdown">
                 <a href="{{ route('admin.home') }}"
                     class="nav-link text-secondary text-center h3 mx-md-5 mx-sm-3 mx-xs-2">
                     <i class="fas fa-home"></i>
@@ -107,54 +99,56 @@
                     class="nav-link text-secondary text-center h3 mx-md-5 mx-sm-3 mx-xs-2">
                     <i class="fas fa-envelope"></i>
                 </a>
-            </nav>
-            {{-- /navbar mobile --}}
+            </div> 
         </nav>
-
-
-
-    </div>
+        {{-- /navbar mobile --}}
+        <a class="logo-container d-flex justify-content-center align-items-center" href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+            <button class="btn ms-logout">Logout</button>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </header>
 
     {{-- /header --}}
 
     {{-- menu --}}
 
-    <div class="container-fluid">
-        <div class="row">
-            <main role="main" class="col-md-12 col-sm-12 col-lg-12" style="padding-top:130px; height:100%">
+    <div class="container-fluid ms-mt-full">
+        <div class="row py-4 align-items-center">
+            <main role="main" class="col-md-12 col-sm-12 col-lg-12">
                 @yield('content')
             </main>
-
-            <footer class="text-center text-lg-start bg-white text-muted w-100">
-
-                <!-- Copyright -->
-                <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
-                    © 2021 Copyright:
-                    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">BoolBnB.com</a>
-                    <div class="my_footer">
-                        <a href="" class="me-4 link-secondary">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="" class="me-4 link-secondary">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="" class="me-4 link-secondary">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="" class="me-4 link-secondary">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="" class="me-4 link-secondary">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        {{-- <a href="" class="me-4 link-secondary">
-                            <i class="fab fa-github"></i>
-                        </a> --}}
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
+    <footer class="align-self-end text-center text-lg-start bg-white text-muted w-100 d-flex align-items-center">
+        <div class="my-footer">
+            <!-- Copyright -->
+            <h6>© 2021 Copyright: BoolBnB</h6>
+            <div class="my_social">
+                <a href="" class="me-4 link-secondary">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 link-secondary">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 link-secondary">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="me-4 link-secondary">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 link-secondary">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                {{-- <a href="" class="me-4 link-secondary">
+                    <i class="fab fa-github"></i>
+                </a> --}}
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

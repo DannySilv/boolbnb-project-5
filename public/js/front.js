@@ -56443,7 +56443,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo.png?f94c954166062d8218ad33a44653b3ae";
+module.exports = "/images/logo.png?6743f432177d8354c5129267e7e467bc";
 
 /***/ }),
 
@@ -56454,7 +56454,7 @@ module.exports = "/images/logo.png?f94c954166062d8218ad33a44653b3ae";
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Boolean\project-team-five\resources\js\front.js */"./resources/js/front.js");
+module.exports = __webpack_require__(/*! C:\BOOLEAN\project-team-five-1\resources\js\front.js */"./resources/js/front.js");
 
 
 /***/ })

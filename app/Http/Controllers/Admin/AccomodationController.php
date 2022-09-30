@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Accomodation;
 use App\Facility;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -56,7 +57,7 @@ class AccomodationController extends Controller
         $data['user_id'] = Auth::user()->id;
 
         // Chiamata con metodo GET all'API di tom tom, ci serve per prelevare da una Città la corrispondente lat e long
-        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
+        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=d2mmEc8fneKRADNTRvtPyRb90pGg1OV6&query=' . $data['address']);
         $data['longitude'] = $local['results']['0']['position']['lon'];
         $data['latitude'] = $local['results']['0']['position']['lat'];
 
@@ -85,7 +86,6 @@ class AccomodationController extends Controller
         $current_accomodation = Accomodation::findOrFail($id);
         $user_id = Auth::id();
         $facilities = Facility::all();
-
         return view('admin.accomodations.show', compact('current_accomodation', 'facilities', 'user_id'));
     }
 
@@ -119,7 +119,7 @@ class AccomodationController extends Controller
         $current_accomodation = Accomodation::findOrFail($id);
 
         // Chiamata con metodo GET all'API di tom tom, ci serve per prelevare da una Città la corrispondente lat e long
-        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=tK1dfG1bbj4Bwrg4EHPfImXRSLMFlytw&query=' . $data['address']);
+        $local = Http::get('https://api.tomtom.com/search/2/search/.json?key=d2mmEc8fneKRADNTRvtPyRb90pGg1OV6&query=' . $data['address']);
         $data['longitude'] = $local['results']['0']['position']['lon'];
         $data['latitude'] = $local['results']['0']['position']['lat'];
 

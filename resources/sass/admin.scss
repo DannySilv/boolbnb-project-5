@@ -1,32 +1,48 @@
 /*Dashboard*/
 .my_header {
-    height: 100px !important;
-    img {
-        object-fit: contain;
-    }
-}
-.my_dashboard {
     width: 100%;
-    background: rgb(248, 249, 250);
-    background: linear-gradient(
-        360deg,
-        rgb(240, 239, 239) 5%,
-        rgba(255, 255, 255, 1) 100%
-    );
-    margin-top: 100px;
-    div {
-        margin: 0 auto;
+    height: 70px !important;
+    background: white;
+    z-index: 1;
+    .logo-container {
+        width: 15%;
+        img {
+            object-fit: contain;
+            max-height: 70px;
+        }
     }
 }
 
-.navbar_mobile {
-    margin-top: 100px;
-    background: rgb(248, 249, 250);
-    background: linear-gradient(
-        360deg,
-        rgb(240, 239, 239) 5%,
-        rgba(255, 255, 255, 1) 100%
-    );
+.ms-logout {
+    color: white!important;
+    border-color: black!important;
+    background-color: black!important;
+}
+
+.btn {
+    padding: 0.1rem 1rem!important;
+    font-weight: 600!important;
+}
+
+.my_dashboard {
+    width: 55%;
+    background: white!important;
+    .nav-item {
+        width: calc(100% / 4);
+        a {
+            color: #979696;
+            font-weight: 500;
+        }
+    }
+    .dropdown {
+        width: 15%;
+        height: 40px;
+        border: 2px solid gray;
+        border-radius: 10px;
+        i {
+            color: gray;
+        }
+    }
 }
 
 .my_scroll::-webkit-scrollbar {
@@ -71,10 +87,28 @@
     background-color: #ff385c !important;
     color: white !important;
 }
+.sponsor_btn {
+    background-color: white !important;
+    color: goldenrod !important;
+}
+.sponsor_btn:hover,
+.sponsor_btn:hover i {
+    background-color: goldenrod !important;
+    color: white !important;
+}
+.btn_hov {
+    width: calc((100% / 3) - 15px);
+    text-align: center;
+}
 .btn_hov:hover {
     p {
         display: block !important;
     }
+}
+.ms-position-index {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .arrow_container {
     position: relative;
@@ -155,15 +189,24 @@
     transition-duration: 1s;
 }
 
+.ms-position {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+}
+
 .my-top-img {
     overflow: hidden;
 }
 
-.footer-container {
-    padding-top: 500px;
+footer {
+    height: 80px;
+    .my-footer {
+        width: 100%;
+    }
 }
 
-.my_footer i {
+.my_social i {
     color: #ff385c;
     padding-top: 1rem;
     margin: 0 0.5rem;
